@@ -126,8 +126,6 @@
   };
 
   # Install firefox.
-  programs.firefox.enable = true;
-
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [(
@@ -180,6 +178,7 @@
     enable = true;
     implementation = "broker";
   };
+  
   xdg.portal = {
     enable = true;
     wlr.enable = true;
@@ -228,5 +227,11 @@
       localNetworkGameTransfers.openFirewall = true; # Open ports in the firewall for Steam Local Network Game Transfers
       gamescopeSession.enable = true;
     };
+
+  networking.firewall = rec {
+  allowedTCPPortRanges = [ { from = 1714; to = 1764; } ];
+  allowedUDPPortRanges = allowedTCPPortRanges;
+  };
+    
 
 }

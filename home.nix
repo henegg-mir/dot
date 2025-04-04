@@ -47,7 +47,15 @@ in
       gnumake
       qbittorrent
       vlc
+      nss
+      passff-host
     ];
+  };
+
+  home.file.passff-host-workaround = {
+    target =
+      "${config.home.homeDirectory}/.mozilla/native-messaging-hosts/passff.json";
+    source = "${pkgs.passff-host}/share/passff-host/passff.json";
   };
 
   
@@ -96,20 +104,78 @@ in
     };
     mako = {
       enable = true;
-      defaultTimeout = 1000;
+      defaultTimeout = 3000;
     };
     direnv = {
       enable = true;
       nix-direnv.enable = true;
+      
     };
     vscode = {
       enable = true;
     };
-
+    thunderbird = {
+      enable = true;
+      profiles = {
+        egg = {
+          isDefault = true;
+        };
+      };
+    };
+    password-store = {
+        enable = true;
+        package = pkgs.pass-wayland;
+    };
     
   };
-
+  accounts.email.accounts = {
+    chalmers = {
+      address = "guting@chalmers.se";
+      flavor = "outlook.office365.com";
+      thunderbird= {
+        enable = true;
+        profiles = ["egg"];
+        settings =
+        id: {
+          "mail.server.server_${id}.authMethod" = 10;
+          "mail.smtpserver.smtp_${id}.authMethod" = 10;
+        };
+      };
+      primary = false;
+      imap = {
+        host = "outlook.office365.com";
+        port = 993;
+        tls.enable = true;
+      };
+      realName = "Egil Guting";
+    };
+    guting = {
+      address = "egil@guting.se";
+      thunderbird = {
+        enable = true;
+        profiles = ["egg"];
+      };
+      primary = true;
+      imap = {
+        host = "imap.one.com";
+        port = 993;
+        tls.enable = true;
+      };
+      smtp = {
+        host = "send.one.com";
+        port = 587;
+        tls = {
+          enable = true;
+          useStartTls = true;
+        };
+      };
+      realName = "Egil Guting";
+      userName = "egil@guting.se";
+    };
+  };
   news.display = "silent";
   programs.home-manager.enable = true;
   fonts.fontconfig.enable = true;
+  services.kdeconnect.enable = true;
+
 }
