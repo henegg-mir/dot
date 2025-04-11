@@ -44,10 +44,6 @@
             color: #6a92d7;
             }
 
-            #workspaces button.urgent {
-            background-color: #eb4d4b;
-            }
-
             #window {
             /* border-radius: 20px; */
             /* padding-left: 10px; */
@@ -86,7 +82,7 @@
             color: #e5e5e5;
             /* color: #bf616a; */
             border-radius: 9.5px;
-            background-color: #1f2530;
+            background-color:rgba(31, 37, 48, 0.74);
             }
 
             #window,
@@ -433,7 +429,7 @@
 
             "custom/power-menu" = {
                 "format" = " <span color='#6a92d7'>⏻ </span>";
-                "on-click" = "${rofi/power.sh} ${rofi/powermenu.sh} ${rofi/powermenu.rasi}";
+                "on-click" = "${rofi/power.bash} ${rofi/powermenu.bash} ${rofi/powermenu.rasi}";
                 "tooltip" = false;
             };
             "custom/launcher" = {

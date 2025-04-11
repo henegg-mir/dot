@@ -11,6 +11,7 @@ in
     ./sway.nix
     ./waybar.nix
     ./spicetify.nix
+    ./wofi.nix
     inputs.nixcord.homeManagerModules.nixcord
   ];
 
@@ -49,14 +50,25 @@ in
       vlc
       nss
       passff-host
+      ydotool
+      jp2a
+      python314
     ];
-  };
+    shell = {
+      enableFishIntegration = true;
+      enableBashIntegration = true;
+    };
+    shellAliases = {
+        gst = "git status";
+      };
 
-  home.file.passff-host-workaround = {
+    file.passff-host-workaround = {
     target =
       "${config.home.homeDirectory}/.mozilla/native-messaging-hosts/passff.json";
     source = "${pkgs.passff-host}/share/passff-host/passff.json";
+    };
   };
+
 
   
 
@@ -82,15 +94,22 @@ in
       generateCompletions = true;
       functions = {
         fish_greeting = {
-          body = "cbonsai -p";
+          body = "${./greeting_script/centered_text} ${greeting_script/poke_ascii} ${greeting_script/lines.py}";
         };
       };
       shellInitLast = "direnv hook fish | source";
     };
+    bash = {
+      enable = true;
+      enableCompletion = true;
+    };
     rofi = {
       enable = true;
+      package = pkgs.rofi-wayland;
       theme = "${./rofi/rounded_muted.rasi}";
+      plugins = [pkgs.rofi-games];
     };
+
     nixcord = {
       enable = true;
       discord.enable = false;
@@ -125,6 +144,10 @@ in
     password-store = {
         enable = true;
         package = pkgs.pass-wayland;
+        settings = { 
+          PASSWORD_STORE_DIR = "${homeDir}/.password-store"; 
+          PASSWORD_STORE_KEY = "AFE7F120FFC5258BF3A6762CB78E5600D1573D1D";
+        };
     };
     
   };

@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+OUTPUT=$(find $1 -type f | shuf -n 1)
+(tput cols; jp2a --color --width=80 $OUTPUT;) | python3 $2
+
+

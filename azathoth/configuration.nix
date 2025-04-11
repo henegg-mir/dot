@@ -117,7 +117,7 @@
   users.users.egg = {
     isNormalUser = true;
     description = "egg";
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = [ "networkmanager" "wheel" "ydotool"];
     shell = pkgs.fish;
     packages = with pkgs; [
       kdePackages.kate
@@ -149,9 +149,6 @@
   # };
 
   programs.fish.enable = true;
-  environment.shellAliases = {
-    gst = "git status";
-  };
 
   security.polkit.enable = true;
   security.rtkit.enable = true;
@@ -168,6 +165,17 @@
         RestartSec = 1;
         TimeoutStopSec = 10;
       };
+    };
+    user.services.ydotoold = {
+        
+      description = "An auto-input utility for wayland";
+      documentation = [ "man:ydotool(1)" "man:ydotoold(8)" ];
+      
+      serviceConfig = {
+        ExecStart = "/run/current-system/sw/bin/ydotoold --socket-path /tmp/ydotools";
+      };
+
+      wantedBy = ["default.target"];
     };
     services = {
       NetworkManager-wait-online.enable = lib.mkForce false;

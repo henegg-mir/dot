@@ -19,7 +19,7 @@ in
             startup = [
             {command = "wl-gammarelay-rs";}
             {command = "waybar";}
-            {command = "swayidle -w timeout 300 '${./swaylock.sh} --grace 2 --fade-in 0.2' timeout 900 'systemctl suspend' before-sleep '${./swaylock.sh}'";}
+            {command = "swayidle -w timeout 300 '${./swaylock.bash} --grace 2 --fade-in 0.2' timeout 900 'systemctl suspend' before-sleep '${./swaylock.bash}'";}
             {command = "autotiling-rs";}
             ];
             gaps = {
@@ -27,10 +27,12 @@ in
                 inner = 10;
             };
             keybindings = {
-            "${modifier}+l" = "exec ${./swaylock.sh}";
+            "${modifier}+l" = "exec ${./swaylock.bash}";
             "${modifier}+Return" = "exec ${pkgs.kitty}/bin/kitty";
+            "${modifier}+p" = "exec ${rofi/passmenu.bash} --type";
             "${modifier}+q" = "kill";
-            "${modifier}+m" = "exec ${pkgs.rofi}/bin/rofi -show run";
+            "${modifier}+m" = "exec ${pkgs.wofi}/bin/wofi --show run";
+            "${modifier}+d" = "exec ${pkgs.wofi}/bin/wofi --show drun";
             "${modifier}+1" = "workspace number 1";
             "${modifier}+3" = "workspace number 3";
             "${modifier}+4" = "workspace number 4";
@@ -77,6 +79,7 @@ in
             bindgesture swipe:right workspace prev
             bindgesture swipe:left workspace next
 	        corner_radius 10
+            blur enable
             for_window [class="Code"] opacity 0.90
             for_window [class="Spotify"] opacity 0.90
             for_window [class="vesktop"] opacity 0.90
@@ -91,6 +94,16 @@ in
             bindsym Shift+Ctrl+Up            resize grow   height 5 px or 5 ppt
             bindsym Shift+Ctrl+Down          resize shrink height 5 px or 5 ppt
             bindsym Shift+Ctrl+Right         resize grow   width  5 px or 5 ppt
+
+            layer_effects "waybar" {
+                blur enable
+                blur_ignore_transparent enable
+            }
+
+            layer_effects "wofi" {
+                blur enable
+                corner_radius 15
+            }
         '';
 
     };
