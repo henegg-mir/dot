@@ -6,7 +6,7 @@ import subprocess
 
 
 def add_empty_lines(len,line):
-    l = int((len-80)/2)
+    l = int((len-130)/2)
     for x in range(l):
         line.insert(0,' ')
     return line
@@ -18,8 +18,6 @@ def main():
     data = sys.stdin.read()
     arr = []
     i = 0
-    for j in range(20):
-        print('\n')
     while(data[i] != '\n'):
         arr.append(data[i])
         i+=1

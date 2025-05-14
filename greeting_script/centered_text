@@ -1,6 +1,14 @@
 #!/usr/bin/env bash
-
-OUTPUT=$(find $1 -type f | shuf -n 1)
-(tput cols; jp2a --color --width=80 $OUTPUT;) | python3 $2
+DIR=$1
+# DIR=$(find $1 -type d | shuf -n 1)
+OUTPUT=$(find $DIR -type f | shuf -n 1)
+COLS=$(tput cols)
+if (($COLS <= 130)); then
+    printf '%.0s\n' {1..40}
+    (jp2a --color $OUTPUT;)
+else
+    printf '%.0s\n' {1..40}
+    (tput cols; jp2a --color --width=130 $OUTPUT;) | python3 $2
+fi
 
 

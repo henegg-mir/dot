@@ -2,6 +2,7 @@
 let
   username = "egg";
   homeDir = "/home/${username}";
+  scripts = scripts/.;
 
 in
 {
@@ -22,7 +23,6 @@ in
 
     packages = with pkgs; [
       blueberry
-    	neovim
       inputs.zen.packages."x86_64-linux".beta
       polonium
       cbonsai
@@ -53,6 +53,8 @@ in
       ydotool
       jp2a
       python314
+      alsa-utils
+      blesh
     ];
     shell = {
       enableFishIntegration = true;
@@ -61,6 +63,10 @@ in
     shellAliases = {
         gst = "git status";
       };
+    
+    sessionPath = [
+      "${scripts}"
+    ];
 
     file.passff-host-workaround = {
     target =
@@ -73,6 +79,15 @@ in
   
 
   programs = {
+    zathura = {
+      enable = true;
+      options = {
+        exec-command = "-invert-colors";
+      };
+    };
+    neovim = {
+      enable = true;
+    };
     git = {
       enable = true;
       userName = "egg";
@@ -94,14 +109,23 @@ in
       generateCompletions = true;
       functions = {
         fish_greeting = {
-          body = "${./greeting_script/centered_text} ${greeting_script/poke_ascii} ${greeting_script/lines.py}";
+          body = "${./greeting_script/centered_text} ~/images ${greeting_script/lines.py}";
         };
       };
+      interactiveShellInit = "set -g fish_user_paths ${scripts} $fish_user_paths";
       shellInitLast = "direnv hook fish | source";
     };
     bash = {
       enable = true;
       enableCompletion = true;
+      initExtra = lib.mkMerge [
+      (lib.mkBefore ''
+        [[ $- == *i* ]] && source "$(blesh-share)"/ble.sh --noattach
+      '')
+      (lib.mkAfter ''
+        [[ ! ''\${BLE_VERSION-} ]] || ble-attach
+          . "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh"
+      '')];
     };
     rofi = {
       enable = true;
@@ -200,5 +224,8 @@ in
   programs.home-manager.enable = true;
   fonts.fontconfig.enable = true;
   services.kdeconnect.enable = true;
-
+  services.gpg-agent = {
+    enable = true;
+    pinentryPackage = pkgs.pinentry-gnome3;
+  };
 }

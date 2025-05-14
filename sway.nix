@@ -10,11 +10,6 @@ in
         config = {
             bars = [];
             terminal = "kitty";
-            output = {
-                eDP-1 = {
-                    bg = "${./calm_night.png} fill";
-                };
-            };
             modifier = "Mod4";
             startup = [
             {command = "wl-gammarelay-rs";}
@@ -30,6 +25,7 @@ in
             "${modifier}+l" = "exec ${./swaylock.bash}";
             "${modifier}+Return" = "exec ${pkgs.kitty}/bin/kitty";
             "${modifier}+p" = "exec ${rofi/passmenu.bash} --type";
+            "${modifier}+p+Shift" = "exec ${rofi/passmenu.bash}";
             "${modifier}+q" = "kill";
             "${modifier}+m" = "exec ${pkgs.wofi}/bin/wofi --show run";
             "${modifier}+d" = "exec ${pkgs.wofi}/bin/wofi --show drun";
@@ -42,6 +38,7 @@ in
             "${modifier}+7" = "workspace number 7";
             "${modifier}+8" = "workspace number 8";
             "${modifier}+9" = "workspace number 9";
+            "${modifier}+0" = "workspace number 10";
             "${modifier}+Shift+1" = "move container to workspace number 1";
             "${modifier}+Shift+2" = "move container to workspace number 2";
             "${modifier}+Shift+3" = "move container to workspace number 3";
@@ -51,10 +48,18 @@ in
             "${modifier}+Shift+7" = "move container to workspace number 7";
             "${modifier}+Shift+8" = "move container to workspace number 8";
             "${modifier}+Shift+9" = "move container to workspace number 9";
+            "${modifier}+Shift+0" = "move container to workspace number 10";
             "${modifier}+i" = "exec busctl --user -- call rs.wl-gammarelay / rs.wl.gammarelay UpdateTemperature n -100";
             "${modifier}+o" = "exec busctl --user call rs.wl-gammarelay / rs.wl.gammarelay UpdateTemperature n 100";
             "${modifier}+f" = "fullscreen";
             "${modifier}+Shift+space" = "floating toggle";
+            "${modifier}+Shift+left" = "move left";
+            "${modifier}+Shift+right" = "move right";
+            "${modifier}+Shift+up" = "move up";
+            "${modifier}+Shift+down" = "move down";
+            "${modifier}+left" = "workspace prev";
+            "${modifier}+right" = "workspace next";
+
             "XF86MonBrightnessDown" = "exec brightnessctl set 5%-";
             "XF86MonBrightnessUp" = "exec brightnessctl set 5%+";
             "XF86AudioRaiseVolume" = "exec pactl set-sink-volume 0 +5%";
@@ -66,6 +71,7 @@ in
             #"XF86AudioMicMute" = exec pamixer --default-source -t
             };
 	    input."*".xkb_layout = "se";
+        input."5426:110:Razer_Razer_DeathAdder_Essential".natural_scroll = "disabled";
 	    input."*".natural_scroll = "enabled";
 	    input."*".scroll_factor = "2.5";
         input."*" = {
@@ -82,18 +88,19 @@ in
             blur enable
             for_window [class="Code"] opacity 0.90
             for_window [class="Spotify"] opacity 0.90
+            for_window [app_id="kitty"] opacity 1
             for_window [class="vesktop"] opacity 0.90
             for_window [title="Picture-in-Picture"] floating enable, sticky enable
             for_window [app_id ="org.pulseaudio.pavucontrol"] floating enable
             for_window [app_id ="org.pulseaudio.pavucontrol"] opacity 0.90
+            for_window [app_id ="blueberry.py"] opacity 0.90
+            for_window [app_id ="grc-prompter"] opacity 0.90
             bindsym Shift+Ctrl+h             resize shrink width  5 px or 5 ppt
             bindsym Shift+Ctrl+k             resize grow   height 5 px or 5 ppt
             bindsym Shift+Ctrl+j             resize shrink height 5 px or 5 ppt
             bindsym Shift+Ctrl+l             resize grow   width  5 px or 5 ppt
-            bindsym Shift+Ctrl+Left          resize shrink width  5 px or 5 ppt
-            bindsym Shift+Ctrl+Up            resize grow   height 5 px or 5 ppt
-            bindsym Shift+Ctrl+Down          resize shrink height 5 px or 5 ppt
-            bindsym Shift+Ctrl+Right         resize grow   width  5 px or 5 ppt
+
+            
 
             layer_effects "waybar" {
                 blur enable
@@ -104,6 +111,28 @@ in
                 blur enable
                 corner_radius 15
             }
+            set $laptop eDP-1
+            set $monitor_1 "AOC 24P1W1 HEBM4HA026735"
+            set $monitor_2 "Huawei Technologies Co., Inc. XWU-CBA 0x00000001"
+            bindswitch --reload --locked lid:on output $laptop disable
+            bindswitch --reload --locked lid:off output $laptop enable
+            exec_always ${./clamshell.sh}
+
+            workspace 1 output $monitor_1
+            workspace 2 output $monitor_1
+            workspace 3 output $monitor_1
+            workspace 4 output $monitor_1
+            workspace 5 output $monitor_1
+            workspace 6 output $monitor_2
+            workspace 7 output $monitor_2
+            workspace 8 output $monitor_2
+            workspace 9 output $monitor_2
+            workspace 10 output $monitor_2
+
+            output $monitor_1 pos 0 0 res 1920x1080@59.940Hz power on bg ${./calm_night.png} fill
+            output $monitor_2 pos 1920 0 res 2560x1440@59.940Hz bg ${./calm_night.png} fill
+            output eDP-1 res 1920x1080@59.997Hz bg ${./calm_night.png} fill
+
         '';
 
     };
