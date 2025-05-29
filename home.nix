@@ -13,7 +13,8 @@ in
     ./waybar.nix
     ./spicetify.nix
     ./wofi.nix
-    inputs.nixcord.homeManagerModules.nixcord
+    inputs.nixcord.homeModules.nixcord
+    inputs.zen.homeModules.beta
   ];
 
   home = {
@@ -23,7 +24,6 @@ in
 
     packages = with pkgs; [
       blueberry
-      inputs.zen.packages."x86_64-linux".beta
       polonium
       cbonsai
       pavucontrol
@@ -79,6 +79,26 @@ in
   
 
   programs = {
+    zen-browser = {
+      enable = true;
+      profiles.egg = {
+        isDefault = true;
+        settings = {
+          "zen.workspaces.show-workspace-indicator" = false;
+          "mousewheel.default.delta_multiplier_y" = 100;
+          "apz.gtk.kinetic_scroll.enabled" = false;
+          "zen.welcome-screen.seen" = true;
+        };
+        search.default = "ddg";
+        search.force = true;
+        search.privateDefault = "ddg";
+      };
+      policies = {
+        DisableAppUpdate = true;
+        DisableTelemetry = true;
+        # find more options here: https://mozilla.github.io/policy-templates/
+      };
+    };
     zathura = {
       enable = true;
       options = {
@@ -144,10 +164,6 @@ in
     swaylock = {
       enable = true;
       package = pkgs.swaylock-effects;
-    };
-    mako = {
-      enable = true;
-      defaultTimeout = 3000;
     };
     direnv = {
       enable = true;
@@ -227,5 +243,9 @@ in
   services.gpg-agent = {
     enable = true;
     pinentryPackage = pkgs.pinentry-gnome3;
+  };
+  services.mako = {
+    enable = true;
+    defaultTimeout = 3000;
   };
 }
