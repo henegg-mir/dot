@@ -55,6 +55,8 @@ in
       python314
       alsa-utils
       blesh
+      any-nix-shell
+      rsync
     ];
     shell = {
       enableFishIntegration = true;
@@ -132,7 +134,10 @@ in
           body = "${./greeting_script/centered_text} ~/images ${greeting_script/lines.py}";
         };
       };
-      interactiveShellInit = "set -g fish_user_paths ${scripts} $fish_user_paths";
+      interactiveShellInit = ''
+        set -g fish_user_paths ${scripts} $fish_user_paths
+         ${pkgs.any-nix-shell}/bin/any-nix-shell fish --info-right | source
+      '';
       shellInitLast = "direnv hook fish | source";
     };
     bash = {

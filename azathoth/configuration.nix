@@ -209,6 +209,18 @@
   powerManagement.enable = true;
   services.thermald.enable = true;
 
+  # Quark rule for Goldleaf
+  services.udev.packages = [
+    (pkgs.writeTextFile {
+      name = "switch_udev";
+      text = ''
+        SUBSYSTEM=="usb", ATTRS{idVendor}=="057e", ATTRS{idProduct}=="3000", GROUP="plugdev"
+      '';
+
+      destination = "/etc/udev/rules.d/99-switch.rules";
+    })
+  ];
+
   # List services that you want to enable:
 
   # Enable the OpenSSH daemon.
