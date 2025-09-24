@@ -10,7 +10,7 @@
         style = ''
             /* The name of the window itself */
             #window {
-                background-color: rgba(58, 46, 94, 0.26);
+                background-color: rgba(49, 39, 80, 0.26);
                 box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
                 border-radius: 1rem;
                 border: 2px solid rgb(97, 97, 97);
@@ -57,7 +57,7 @@
             }
             #window #outer-box #scroll #inner-box #entry:selected {
                 color: #fff;
-                background-color: rgba(235, 175, 255, 0.34);
+                background-color: rgba(255, 150, 224, 0.34);
                 outline: none;
             }
         '';

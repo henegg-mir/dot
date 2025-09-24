@@ -8,6 +8,6 @@ in
   programs.spicetify = {
     enable = true;
     theme = spicePkgs.themes.text;
-    colorScheme = "RosePine";
+    colorScheme = "Spotify";
   };
 }

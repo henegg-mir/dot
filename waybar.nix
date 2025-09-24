@@ -11,7 +11,7 @@
             }
 
             window#waybar {
-            background-color: rgba(91, 94, 146, 0.3);
+            background-color: rgba(83, 83, 90, 0.3);
             color: #ffffff;
             transition-property: background-color;
             transition-duration: 0.5s;
@@ -27,7 +27,7 @@
 
             #workspaces button {
             padding: 0 5px;
-            color:rgb(121, 132, 164);
+            color:rgb(64, 104, 67);
             background-color: transparent;
             /* Use box-shadow instead of border so the text isn't offset */
             box-shadow: inset 0 -3px transparent;
@@ -37,7 +37,7 @@
             }
 
             #workspaces button.focused {
-            color: #bf616a;
+            color:#bf6188;
             }
 
             #workspaces button.active {
@@ -82,7 +82,11 @@
             color: #e5e5e5;
             /* color: #bf616a; */
             border-radius: 9.5px;
-            background-color:rgba(42, 49, 63, 0.74);
+            background-color:rgba(32, 32, 32, 0.66);
+            }
+
+            #battery {
+            background-color:rgb(28, 31, 34);
             }
 
             #window,
@@ -90,7 +94,7 @@
             margin: 0 4px;
             padding: 0 7 0 3px;
             border-radius: 7.8px;
-            background-color: #1f2530;
+            background-color:rgba(32, 32, 32, 0.75);
             }
 
             #cpu {
@@ -106,7 +110,7 @@
             #custom-wl-gammarelay-temperature,
             #custom-power-menu {
             border-radius: 9.5px;
-            background-color: #1b242b;
+            background-color:rgba(35, 30, 49, 0.73);
             border-radius: 7.5px;
             padding: 0 5px;
             }
@@ -264,12 +268,12 @@
             padding: 0 15 0 7px;
             color: rgb(161, 139, 172);
             border-radius: 9.5px;
-            background-color: #1b242b;
+            background-color:rgb(30, 34, 37);
             }
 
             #idle_inhibitor.activated {
             background-color:rgb(161, 139, 172);
-            color: #2d3436;
+            color: rgb(30, 34, 37);
             }
 
             #mpd {
@@ -428,7 +432,7 @@
             };
 
             "custom/power-menu" = {
-                "format" = " <span color='#6a92d7'>⏻ </span>";
+                "format" = " <span color='#bf6188'>⏻ </span>";
                 "on-click" = "${rofi/power.bash} ${rofi/powermenu.bash} ${rofi/powermenu.rasi}";
                 "tooltip" = false;
             };

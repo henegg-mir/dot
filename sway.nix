@@ -8,6 +8,22 @@ in
         enable = true;
         package = pkgs.swayfx;
         config = {
+            colors = {
+                focused = {
+                    background = "#222222";
+                    border = "#333333";
+                    childBorder = "#5f676a";
+                    indicator = "#830857";
+                    text = "#888888";
+                };
+                focusedInactive = {
+                    background = "#5f676a";
+                    border = "#333333";
+                    childBorder = "#222222";
+                    indicator = "#222222";
+                    text = "#ffffff";
+                };
+            };
             bars = [];
             terminal = "kitty";
             modifier = "Mod4";
@@ -85,8 +101,7 @@ in
             bindgesture swipe:right workspace prev
             bindgesture swipe:left workspace next
 	        corner_radius 10
-            blur enable
-            for_window [class="Code"] opacity 0.90
+            for_window [class="Code"] opacity 0.78
             for_window [class="Spotify"] opacity 0.90
             for_window [app_id="kitty"] opacity 1
             for_window [class="vesktop"] opacity 0.90
@@ -100,8 +115,10 @@ in
             bindsym Shift+Ctrl+j             resize shrink height 5 px or 5 ppt
             bindsym Shift+Ctrl+l             resize grow   width  5 px or 5 ppt
 
+            layer_effects "kitty" {
+                blur enable
+            }
             
-
             layer_effects "waybar" {
                 blur enable
                 blur_ignore_transparent enable
@@ -122,16 +139,16 @@ in
             workspace 2 output $monitor_1
             workspace 3 output $monitor_1
             workspace 4 output $monitor_1
-            workspace 5 output $monitor_1
+            workspace 5 output $monitor_1 HDMI-A-1
             workspace 6 output $monitor_2
             workspace 7 output $monitor_2
             workspace 8 output $monitor_2
             workspace 9 output $monitor_2
             workspace 10 output $monitor_2
 
-            output $monitor_1 pos 0 0 res 1920x1080@59.940Hz power on bg ${./calm_night.png} fill
-            output $monitor_2 pos 1920 0 res 2560x1440@59.940Hz bg ${./calm_night.png} fill
-            output eDP-1 res 1920x1080@59.997Hz bg ${./calm_night.png} fill
+            output $monitor_1 pos 0 0 res 1920x1080@59.940Hz power on bg ${./dream.jpg} fill scale_filter nearest
+            output $monitor_2 pos 1920 0 res 2560x1440@59.940Hz power on bg ${./dream.jpg} fill scale_filter nearest
+            output eDP-1 res 1920x1080@59.997Hz bg ${./dream.jpg} fill scale_filter nearest
 
         '';
 

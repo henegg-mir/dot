@@ -23,10 +23,10 @@ USE_BUTTONS=YES
 
     font: "JetBrainsMono Nerd Font 10";
 
-    background:     #1E1D2FFF;
-    background-alt: #282839FF;
+    background:rgb(47, 32, 29);
+    background-alt:rgb(36, 32, 31);
     foreground:     #D9E0EEFF;
-    selected:       #7AA2F7FF;
+    selected:rgb(247, 122, 180);
     active:         #ABE9B3FF;
     urgent:         #F28FADFF;
 }

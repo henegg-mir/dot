@@ -8,7 +8,7 @@
             window_padding_width = 3;
             enable_audio_bell = false;
             hide_window_decorations = true;
-            background_opacity = 0;
+            background_opacity = 0.8;
             foreground = "#eed8e5";
             background = "#0c0611";
             selection_foreground = "#1c1621";

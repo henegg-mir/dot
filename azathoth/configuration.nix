@@ -3,7 +3,11 @@
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
 { config, lib, pkgs, ... }:
-
+let
+  startWebcam = pkgs.writeShellScriptBin "start-webcam" ''
+    systemctl restart webcam
+  '';
+in
 {
   imports =
     [ # Include the results of the hardware scan.
@@ -71,11 +75,11 @@
   services.xserver.enable = true;
 
   # Enable the KDE Plasma Desktop Environment.
-  services.displayManager.sddm = {
-    enable = true;
-    theme = "catppuccin-mocha";
-    package = lib.mkDefault pkgs.kdePackages.sddm;
-  };
+  # displayManager.sddm = {
+  #   enable = true;
+  #   theme = "catppuccin-mocha-mauve";
+  #   package = pkgs.kdePackages.sddm;
+  # };
   services.desktopManager.plasma6.enable = true;
   programs.sway.enable = true;
 
@@ -96,7 +100,7 @@
   services.printing.enable = true;
 
   # Enable sound with pipewire.
-  hardware.pulseaudio.enable = false;
+  services.pulseaudio.enable = false;
   services.pipewire = {
     enable = true;
     alsa.enable = true;
@@ -128,18 +132,18 @@
   # Install firefox.
   # List packages installed in system profile. To search, run:
   # $ nix search wget
-  environment.systemPackages = with pkgs; [(
-    pkgs.catppuccin-sddm.override {
-      flavor = "mocha";
-      font  = "Noto Sans";
-      fontSize = "9";
-      background = "${../calm_night.png}";
-      loginBackground = true;
-    }
-    
+  # environment.systemPackages = [(
+  #   pkgs.catppuccin-sddm.override {
+  #     flavor = "mocha";
+  #     accent = "mauve";
+  #     font  = "Noto Sans";
+  #     fontSize = "9";
+  #     background = "${../dream.jpg}";
+  #     loginBackground = true;
+  #   }
+  # )];
   #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
   #  wget
-  )];
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
@@ -210,16 +214,44 @@
   services.thermald.enable = true;
 
   # Quark rule for Goldleaf
-  services.udev.packages = [
-    (pkgs.writeTextFile {
-      name = "switch_udev";
-      text = ''
-        SUBSYSTEM=="usb", ATTRS{idVendor}=="057e", ATTRS{idProduct}=="3000", GROUP="plugdev"
-      '';
+  services.udev.packages = [ pkgs.quark-goldleaf ];
+  # services.udev.packages = [
+  #   (pkgs.writeTextFile {
+  #     name = "switch_udev";
+  #     text = ''
+  #       SUBSYSTEM=="usb", ATTRS{idVendor}=="057e", ATTRS{idProduct}=="3000", GROUP="plugdev"
+  #     '';
 
-      destination = "/etc/udev/rules.d/99-switch.rules";
-    })
+  #     destination = "/etc/udev/rules.d/99-switch.rules";
+  #   })
+  # ];
+
+
+  services.udev.extraRules = ''
+  ACTION=="add",  \
+  SUBSYSTEM=="usb", \
+  ATTR{idVendor}=="04a9", \
+  ATTR{idProduct}=="317b",  \
+  RUN+="${startWebcam}/bin/start-webcam"
+'';
+
+  boot.extraModulePackages = with config.boot.kernelPackages;
+  [ v4l2loopback.out ];
+  boot.kernelModules = [
+    "v4l2loopback"
   ];
+  boot.extraModprobeConfig = ''
+    options v4l2loopback exclusive_caps=1 card_label="Virtual Camera"
+  '';
+
+  systemd.services.webcam = {
+    enable = true;
+    script = ''
+      ${pkgs.gphoto2}/bin/gphoto2 --stdout --capture-movie |
+        ${pkgs.ffmpeg}/bin/ffmpeg -i - \
+            -vcodec rawvideo -pix_fmt yuv420p -f v4l2  /dev/video0
+    '';
+  };
 
   # List services that you want to enable:
 
@@ -253,6 +285,27 @@
   allowedTCPPortRanges = [ { from = 1714; to = 1764; } ];
   allowedUDPPortRanges = allowedTCPPortRanges;
   };
-    
+
+  networking.nameservers = [
+  "1.1.1.1"
+  "1.0.0.1"
+  ];
+
+  services.resolved = {
+  enable = true;
+  dnssec = "true";
+  domains = [ "~." ];
+  fallbackDns = [
+    "1.1.1.1"
+    "1.0.0.1"
+    ];
+  dnsovertls = "true";
+  };
+   
+   # Enable mullvad service
+   networking.firewall.checkReversePath = "loose";
+   networking.wireguard.enable = true;
+   services.mullvad-vpn.enable = true;
+   networking.iproute2.enable = true; 
 
 }

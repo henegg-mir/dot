@@ -13,6 +13,7 @@ in
     ./waybar.nix
     ./spicetify.nix
     ./wofi.nix
+    ./nixvim.nix
     inputs.nixcord.homeModules.nixcord
     inputs.zen.homeModules.beta
   ];
@@ -57,6 +58,21 @@ in
       blesh
       any-nix-shell
       rsync
+      zoom-us
+      ffmpeg
+      gphoto2
+      mpv
+      quark-goldleaf
+      rar
+      wine
+      calibre
+      obsidian
+      nicotine-plus
+      godot
+      lazygit
+      tree-sitter
+      ripgrep
+      tree
     ];
     shell = {
       enableFishIntegration = true;
@@ -107,9 +123,6 @@ in
         exec-command = "-invert-colors";
       };
     };
-    neovim = {
-      enable = true;
-    };
     git = {
       enable = true;
       userName = "egg";
@@ -127,6 +140,7 @@ in
       enable = true;
       shellAliases = {
         cl = "fish_greeting";
+        ls = "ls -a";
       };
       generateCompletions = true;
       functions = {
@@ -154,7 +168,6 @@ in
     };
     rofi = {
       enable = true;
-      package = pkgs.rofi-wayland;
       theme = "${./rofi/rounded_muted.rasi}";
       plugins = [pkgs.rofi-games];
     };
@@ -163,7 +176,7 @@ in
       enable = true;
       discord.enable = false;
       vesktop.enable = true;
-      config.themeLinks = ["https://catppuccin.github.io/discord/dist/catppuccin-mocha.theme.css"
+      config.themeLinks = ["https://refact0r.github.io/system24/build/system24.css"
       ];
     };
     swaylock = {

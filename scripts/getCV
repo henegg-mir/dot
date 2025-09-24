@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+curl https://henegg-mir.github.io/myCV/ --output - | nohup zathura - &
