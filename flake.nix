@@ -32,10 +32,19 @@
       # If using a stable channel you can use `url = "github:nix-community/nixvim/nixos-<version>"`
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    Neve = {
+      url = "github:redyf/Neve";
+    };
   };
 
-
-  outputs = { nixpkgs, nixpkgs-2411, lix-module, home-manager, ... } @ inputs:
+  outputs =
+    {
+      nixpkgs,
+      nixpkgs-2411,
+      lix-module,
+      home-manager,
+      ...
+    }@inputs:
     let
       system = "x86_64-linux";
       overlay-2411 = final: prev: {

@@ -1,4 +1,10 @@
-{ config, lib, pkgs, inputs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  inputs,
+  ...
+}:
 let
   username = "egg";
   homeDir = "/home/${username}";
@@ -13,9 +19,10 @@ in
     ./waybar.nix
     ./spicetify.nix
     ./wofi.nix
-    ./nixvim.nix
+    ./nixvim/default.nix
     inputs.nixcord.homeModules.nixcord
     inputs.zen.homeModules.beta
+    inputs.nixvim.homeModules.nixvim
   ];
 
   home = {
@@ -73,30 +80,30 @@ in
       tree-sitter
       ripgrep
       tree
+      quarto
     ];
     shell = {
       enableFishIntegration = true;
       enableBashIntegration = true;
     };
     shellAliases = {
-        gst = "git status";
-      };
-    
+      gst = "git status";
+    };
+
     sessionPath = [
       "${scripts}"
     ];
 
     file.passff-host-workaround = {
-    target =
-      "${config.home.homeDirectory}/.mozilla/native-messaging-hosts/passff.json";
-    source = "${pkgs.passff-host}/share/passff-host/passff.json";
+      target = "${config.home.homeDirectory}/.mozilla/native-messaging-hosts/passff.json";
+      source = "${pkgs.passff-host}/share/passff-host/passff.json";
     };
   };
 
-
-  
-
   programs = {
+    nixvim = {
+      enable = true;
+    };
     zen-browser = {
       enable = true;
       profiles.egg = {
@@ -158,25 +165,27 @@ in
       enable = true;
       enableCompletion = true;
       initExtra = lib.mkMerge [
-      (lib.mkBefore ''
-        [[ $- == *i* ]] && source "$(blesh-share)"/ble.sh --noattach
-      '')
-      (lib.mkAfter ''
-        [[ ! ''\${BLE_VERSION-} ]] || ble-attach
-          . "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh"
-      '')];
+        (lib.mkBefore ''
+          [[ $- == *i* ]] && source "$(blesh-share)"/ble.sh --noattach
+        '')
+        (lib.mkAfter ''
+          [[ ! ''\${BLE_VERSION-} ]] || ble-attach
+            . "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh"
+        '')
+      ];
     };
     rofi = {
       enable = true;
       theme = "${./rofi/rounded_muted.rasi}";
-      plugins = [pkgs.rofi-games];
+      plugins = [ pkgs.rofi-games ];
     };
 
     nixcord = {
       enable = true;
       discord.enable = false;
       vesktop.enable = true;
-      config.themeLinks = ["https://refact0r.github.io/system24/build/system24.css"
+      config.themeLinks = [
+        "https://refact0r.github.io/system24/build/system24.css"
       ];
     };
     swaylock = {
@@ -186,7 +195,7 @@ in
     direnv = {
       enable = true;
       nix-direnv.enable = true;
-      
+
     };
     vscode = {
       enable = true;
@@ -200,24 +209,23 @@ in
       };
     };
     password-store = {
-        enable = true;
-        package = pkgs.pass-wayland;
-        settings = { 
-          PASSWORD_STORE_DIR = "${homeDir}/.password-store"; 
-          PASSWORD_STORE_KEY = "AFE7F120FFC5258BF3A6762CB78E5600D1573D1D";
-        };
+      enable = true;
+      package = pkgs.pass-wayland;
+      settings = {
+        PASSWORD_STORE_DIR = "${homeDir}/.password-store";
+        PASSWORD_STORE_KEY = "AFE7F120FFC5258BF3A6762CB78E5600D1573D1D";
+      };
     };
-    
+
   };
   accounts.email.accounts = {
     chalmers = {
       address = "guting@chalmers.se";
       flavor = "outlook.office365.com";
-      thunderbird= {
+      thunderbird = {
         enable = true;
-        profiles = ["egg"];
-        settings =
-        id: {
+        profiles = [ "egg" ];
+        settings = id: {
           "mail.server.server_${id}.authMethod" = 10;
           "mail.smtpserver.smtp_${id}.authMethod" = 10;
         };
@@ -234,7 +242,7 @@ in
       address = "egil@guting.se";
       thunderbird = {
         enable = true;
-        profiles = ["egg"];
+        profiles = [ "egg" ];
       };
       primary = true;
       imap = {
@@ -262,7 +270,7 @@ in
     enable = true;
     pinentryPackage = pkgs.pinentry-gnome3;
   };
-  services.mako = {
+  services.mako.settings = {
     enable = true;
     defaultTimeout = 3000;
   };
