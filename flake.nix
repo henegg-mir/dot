@@ -32,9 +32,6 @@
       # If using a stable channel you can use `url = "github:nix-community/nixvim/nixos-<version>"`
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    Neve = {
-      url = "github:redyf/Neve";
-    };
   };
 
   outputs =
