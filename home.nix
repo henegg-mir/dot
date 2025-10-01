@@ -80,7 +80,6 @@ in
       tree-sitter
       ripgrep
       tree
-      quarto
     ];
     shell = {
       enableFishIntegration = true;

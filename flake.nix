@@ -1,5 +1,5 @@
 {
-  description = "Your new nix config";
+  description = "Egg's config";
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
@@ -72,6 +72,13 @@
             lix-module.nixosModules.default
           ];
         };
+        zamacona = nixpkgs.lib.nixosSystem {
+          inherit pkgs;
+          modules = [
+            ./zamacona/configuration.nix
+            lix-module.nixosModules.default
+          ];
+        };
       };
 
       homeConfigurations = {
@@ -79,6 +86,18 @@
           inherit pkgs;
           extraSpecialArgs = {
             inherit inputs;
+            server = false;
+          };
+          modules = [
+            ./home.nix
+            lix-module.nixosModules.default
+          ];
+        };
+        zamacona = home-manager.lib.homeManagerConfiguration {
+          inherit pkgs;
+          extraSpecialArgs = {
+            inherit inputs;
+            server = true;
           };
           modules = [
             ./home.nix
