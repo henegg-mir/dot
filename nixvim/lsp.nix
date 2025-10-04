@@ -108,7 +108,6 @@
         astro.enable = true; # AstroJS
         phpactor.enable = true; # PHP
         svelte.enable = false; # Svelte
-        vuels.enable = false; # Vue
         pyright.enable = true; # Python
         #nil_ls.enable = true; # Nix
         dockerls.enable = true; # Docker

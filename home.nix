@@ -3,6 +3,7 @@
   lib,
   pkgs,
   inputs,
+  server,
   ...
 }:
 let
@@ -28,7 +29,7 @@ in
   home = {
     username = username;
     homeDirectory = homeDir;
-    stateVersion = "24.11";
+    stateVersion = "25.05";
 
     packages = with pkgs; [
       blueberry
