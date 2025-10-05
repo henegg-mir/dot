@@ -1,14 +1,14 @@
+{config,lib,pkgs, ...}:
 {
     
     home = {
-        packages = with pkgs [
+        packages = with pkgs; [
             passff-host
         ];
-    };
-
-    file.passff-host-workaround = {
-      target = "${config.home.homeDirectory}/.mozilla/native-messaging-hosts/passff.json";
-      source = "${pkgs.passff-host}/share/passff-host/passff.json";
+        file.passff-host-workaround = {
+        target = "${config.home.homeDirectory}/.mozilla/native-messaging-hosts/passff.json";
+        source = "${pkgs.passff-host}/share/passff-host/passff.json";
+        };
     };
 
     programs.zen-browser = {

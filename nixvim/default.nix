@@ -13,4 +13,6 @@
     ./oil.nix
     ./lualine.nix
   ];
+
+  programs.nixvim.enable = true;
 }

@@ -15,16 +15,19 @@ in
 {
 
   imports = [
+    ./nixvim/default.nix
+    inputs.nixvim.homeModules.nixvim
+  ] ++ (lib.optionals (!server) [
+    ./zen.nix
+    ./nixcord.nix
     ./kitty.nix
     ./sway.nix
     ./waybar.nix
     ./spicetify.nix
     ./wofi.nix
-    ./nixvim/default.nix
     inputs.nixcord.homeModules.nixcord
     inputs.zen.homeModules.beta
-    inputs.nixvim.homeModules.nixvim
-  ];
+  ]);
 
   home = {
     username = username;
@@ -32,33 +35,17 @@ in
     stateVersion = "25.05";
 
     packages = with pkgs; [
-      blueberry
-      polonium
       cbonsai
-      pavucontrol
-      kde-rounded-corners
       unzip
-      dmenu
       jq
-      wl-gammarelay-rs
       nerd-fonts.jetbrains-mono
       font-awesome
-      swaybg
-      icomoon-feather
       powertop
       playerctl
-      autotiling-rs
       ghc
-      SDL2
-      mesa
-      glm
-      imgui
       cmake
       gnumake
-      qbittorrent
-      vlc
       nss
-      passff-host
       ydotool
       jp2a
       python314
@@ -66,22 +53,34 @@ in
       blesh
       any-nix-shell
       rsync
-      zoom-us
-      ffmpeg
-      gphoto2
-      mpv
-      quark-goldleaf
       rar
       wine
-      calibre
-      obsidian
-      nicotine-plus
-      godot
       lazygit
       tree-sitter
       ripgrep
       tree
-    ];
+    ] ++ (lib.optionals (!server) [
+      calibre
+      obsidian
+      zoom-us
+      ffmpeg
+      nicotine-plus
+      gphoto2
+      mpv
+      quark-goldleaf
+      godot
+      qbittorrent
+      vlc
+      autotiling-rs
+      swaybg
+      icomoon-feather
+      wl-gammarelay-rs
+      dmenu
+      kde-rounded-corners
+      blueberry
+      polonium
+      pavucontrol
+    ]);
     shell = {
       enableFishIntegration = true;
       enableBashIntegration = true;
@@ -94,36 +93,9 @@ in
       "${scripts}"
     ];
 
-    file.passff-host-workaround = {
-      target = "${config.home.homeDirectory}/.mozilla/native-messaging-hosts/passff.json";
-      source = "${pkgs.passff-host}/share/passff-host/passff.json";
-    };
   };
 
   programs = {
-    nixvim = {
-      enable = true;
-    };
-    zen-browser = {
-      enable = true;
-      profiles.egg = {
-        isDefault = true;
-        settings = {
-          "zen.workspaces.show-workspace-indicator" = false;
-          "mousewheel.default.delta_multiplier_y" = 100;
-          "apz.gtk.kinetic_scroll.enabled" = false;
-          "zen.welcome-screen.seen" = true;
-        };
-        search.default = "ddg";
-        search.force = true;
-        search.privateDefault = "ddg";
-      };
-      policies = {
-        DisableAppUpdate = true;
-        DisableTelemetry = true;
-        # find more options here: https://mozilla.github.io/policy-templates/
-      };
-    };
     zathura = {
       enable = true;
       options = {
@@ -173,24 +145,6 @@ in
             . "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh"
         '')
       ];
-    };
-    rofi = {
-      enable = true;
-      theme = "${./rofi/rounded_muted.rasi}";
-      plugins = [ pkgs.rofi-games ];
-    };
-
-    nixcord = {
-      enable = true;
-      discord.enable = false;
-      vesktop.enable = true;
-      config.themeLinks = [
-        "https://refact0r.github.io/system24/build/system24.css"
-      ];
-    };
-    swaylock = {
-      enable = true;
-      package = pkgs.swaylock-effects;
     };
     direnv = {
       enable = true;

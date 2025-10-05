@@ -3,6 +3,17 @@ let
     modifier = config.wayland.windowManager.sway.config.modifier;
 in
 {
+    programs =  { 
+        rofi = {
+            enable = true;
+            theme = "${./rofi/rounded_muted.rasi}";
+            plugins = [ pkgs.rofi-games ];
+            };
+        swaylock = {
+        enable = true;
+        package = pkgs.swaylock-effects;
+        }; 
+    };
     wayland.windowManager.sway = {
         checkConfig = false;
         enable = true;
