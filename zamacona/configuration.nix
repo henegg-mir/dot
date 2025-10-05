@@ -2,7 +2,7 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, ... }:
+{ config,lib, pkgs, ... }:
 
 {
   imports =
@@ -24,27 +24,24 @@
   # Enable networking
   networking.networkmanager.enable = true;
 
-    nix = {
-    settings = {
-      experimental-features = "nix-command flakes";
-      keep-outputs = true;
-      keep-derivations = true;
-      auto-optimise-store = true;
-      trusted-users = [ "root" "egg" ];
-      extra-substituters = [
-        "https://cache.lix.systems"
-      ];
-      trusted-public-keys = [
-        "cache.lix.systems:aBnZUw8zA7H35Cz2RyKFVs3H4PlGTLawyY5KRbvJR8o="
-      ];
-    };
-    gc = {
-      automatic = true;
-      persistent = true;
-      dates = "weekly";
-      options = "--delete-older-than 14d";
-    };
-  }; 
+	nix = {	
+	settings = {
+	experimental-features = "nix-command flakes";
+	keep-outputs = true;
+	keep-derivations = true;
+	auto-optimise-store = true;
+	trusted-users = ["root" "egg"];
+	extra-substituters = [
+	"https://cache.lix.systems"	
+	];
+	};
+	gc = {
+	automatic = true;
+	persistent = true;
+	dates = "weekly";
+	options = "--delete-older-than 14d";
+	};
+	};
 
   # Set your time zone.
   time.timeZone = "Europe/Stockholm";
@@ -80,16 +77,23 @@
     extraGroups = [ "networkmanager" "wheel" ];
     packages = with pkgs; [];
   };
-
-  # Allow unfree packages
-  nixpkgs.config.allowUnfree = true;
-
+  
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
+     steamcmd
+     neovim
+     git
+     dotnet-sdk
   #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
   #  wget
   ];
+
+  virtualisation.docker.rootless = {
+  enable = true;
+  setSocketVariable = true;
+};
+
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
@@ -102,7 +106,12 @@
   # List services that you want to enable:
 
   # Enable the OpenSSH daemon.
-  # services.openssh.enable = true;
+  services = {
+ 	 openssh = {
+	 enable = true;
+	 passwordAuthentication = false;
+	 };
+ };
 
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
