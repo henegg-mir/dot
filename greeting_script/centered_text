@@ -12,7 +12,7 @@ elif (($COLS <= 100)); then
     (jp2a --color --term-center $OUTPUT;)
 else
     printf '%.0s\n' {1..40}
-    (tput cols; jp2a --color --width=100 --term-center $OUTPUT;)
+    (jp2a --color --width=100 --term-center $OUTPUT;)
 fi
 
 

@@ -132,7 +132,7 @@ in
           body = "${./greeting_script/centered_text} ~/images";
         };
       };
-      interactiveShellInit = ''
+      interactiveShellInit = lib.optionals server ("set TERM xterm-256color\n") + ''
         set -g fish_user_paths ${scripts} $fish_user_paths
          ${pkgs.any-nix-shell}/bin/any-nix-shell fish --info-right | source
       '';
