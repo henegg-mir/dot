@@ -3,12 +3,16 @@ DIR=$1
 # DIR=$(find $1 -type d | shuf -n 1)
 OUTPUT=$(find $DIR -type f | shuf -n 1)
 COLS=$(tput cols)
-if (($COLS <= 100)); then
+LINES=$(tput lines)
+if (($LINES == 29)); then
     printf '%.0s\n' {1..40}
-    (jp2a --color $OUTPUT;)
+    (jp2a --color --term-center $OUTPUT;)
+elif (($COLS <= 100)); then
+    printf '%.0s\n' {1..40}
+    (jp2a --color --term-center $OUTPUT;)
 else
     printf '%.0s\n' {1..40}
-    (tput cols; jp2a --color --width=100 $OUTPUT;) | python3 $2
+    (tput cols; jp2a --color --width=100 --term-center $OUTPUT;)
 fi
 
 
