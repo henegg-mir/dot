@@ -124,7 +124,7 @@ in
       generateCompletions = true;
       functions = {
         fish_greeting = {
-          body = "${./greeting_script/centered_text} ~/images ${greeting_script/lines.py}";
+          body = "${./greeting_script/centered_text} ~/images";
         };
       };
       interactiveShellInit = ''
