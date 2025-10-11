@@ -74,6 +74,8 @@
   users.users.egg = {
     isNormalUser = true;
     description = "egg";
+    ignoreShellProgramCheck = true;
+    shell = pkgs.fish;
     extraGroups = [ "networkmanager" "wheel" ];
     packages = with pkgs; [];
   };
@@ -82,8 +84,6 @@
   # $ nix search wget
   environment.systemPackages = with pkgs; [
      steamcmd
-     neovim
-     git
      dotnet-sdk
   #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
   #  wget
