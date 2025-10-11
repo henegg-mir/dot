@@ -17,7 +17,8 @@ in
   imports = [
     ./nixvim/default.nix
     inputs.nixvim.homeModules.nixvim
-  ] ++ (lib.optionals (!server) [
+  ]
+  ++ (lib.optionals (!server) [
     ./zen.nix
     ./nixcord.nix
     ./kitty.nix
@@ -34,53 +35,57 @@ in
     homeDirectory = homeDir;
     stateVersion = "25.05";
 
-    packages = with pkgs; [
-      cbonsai
-      unzip
-      jq
-      nerd-fonts.jetbrains-mono
-      font-awesome
-      powertop
-      playerctl
-      ghc
-      cmake
-      gnumake
-      nss
-      ydotool
-      jp2a
-      python314
-      alsa-utils
-      blesh
-      any-nix-shell
-      rsync
-      rar
-      wine
-      lazygit
-      tree-sitter
-      ripgrep
-      tree
-    ] ++ (lib.optionals (!server) [
-      calibre
-      obsidian
-      zoom-us
-      ffmpeg
-      nicotine-plus
-      gphoto2
-      mpv
-      quark-goldleaf
-      godot
-      qbittorrent
-      vlc
-      autotiling-rs
-      swaybg
-      icomoon-feather
-      wl-gammarelay-rs
-      dmenu
-      kde-rounded-corners
-      blueberry
-      polonium
-      pavucontrol
-    ]);
+    packages =
+      with pkgs;
+      [
+        cbonsai
+        unzip
+        jq
+        nerd-fonts.jetbrains-mono
+        font-awesome
+        powertop
+        playerctl
+        ghc
+        cmake
+        gnumake
+        nss
+        ydotool
+        jp2a
+        python314
+        alsa-utils
+        blesh
+        any-nix-shell
+        rsync
+        rar
+        wine
+        lazygit
+        tree-sitter
+        ripgrep
+        tree
+      ]
+      ++ (lib.optionals (!server) [
+        calibre
+        obsidian
+        zoom-us
+        ffmpeg
+        nicotine-plus
+        gphoto2
+        mpv
+        quark-goldleaf
+        godot
+        qbittorrent
+        vlc
+        autotiling-rs
+        swaybg
+        icomoon-feather
+        wl-gammarelay-rs
+        dmenu
+        kde-rounded-corners
+        blueberry
+        polonium
+        pavucontrol
+        unofficial-homestuck-collection
+      ]);
     shell = {
       enableFishIntegration = true;
       enableBashIntegration = true;
