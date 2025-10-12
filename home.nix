@@ -113,7 +113,7 @@ in
       userEmail = "egil@guting.se";
       difftastic = {
         enable = true;
-        background = "dark";
+        options.background = "dark";
       };
       extraConfig = {
         pull.rebase = true;
