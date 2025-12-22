@@ -2,24 +2,30 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 let
   startWebcam = pkgs.writeShellScriptBin "start-webcam" ''
     systemctl restart webcam
   '';
 in
 {
-  imports =
-    [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
-      ./suspend-then-hibernate.nix
-    ];
+  imports = [
+    # Include the results of the hardware scan.
+    ./hardware-configuration.nix
+    ./suspend-then-hibernate.nix
+  ];
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  boot.initrd.luks.devices."luks-bc93d2e6-0da0-4c32-abf0-d8001d4f1130".device = "/dev/disk/by-uuid/bc93d2e6-0da0-4c32-abf0-d8001d4f1130";
+  boot.initrd.luks.devices."luks-bc93d2e6-0da0-4c32-abf0-d8001d4f1130".device =
+    "/dev/disk/by-uuid/bc93d2e6-0da0-4c32-abf0-d8001d4f1130";
   networking.hostName = "azathoth"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
@@ -36,7 +42,10 @@ in
       keep-outputs = true;
       keep-derivations = true;
       auto-optimise-store = true;
-      trusted-users = [ "root" "egg" ];
+      trusted-users = [
+        "root"
+        "egg"
+      ];
       extra-substituters = [
         "https://cache.lix.systems"
       ];
@@ -50,7 +59,7 @@ in
       dates = "weekly";
       options = "--delete-older-than 14d";
     };
-  }; 
+  };
 
   # Set your time zone.
   time.timeZone = "Europe/Stockholm";
@@ -121,11 +130,15 @@ in
   users.users.egg = {
     isNormalUser = true;
     description = "egg";
-    extraGroups = [ "networkmanager" "wheel" "ydotool"];
+    extraGroups = [
+      "networkmanager"
+      "wheel"
+      "ydotool"
+    ];
     shell = pkgs.fish;
     packages = with pkgs; [
       kdePackages.kate
-    #  thunderbird
+      #  thunderbird
     ];
   };
 
@@ -153,6 +166,7 @@ in
   #   enableSSHSupport = true;
   # };
 
+  programs.zsh.enable = true;
   programs.fish.enable = true;
 
   security.polkit.enable = true;
@@ -172,15 +186,18 @@ in
       };
     };
     user.services.ydotoold = {
-        
+
       description = "An auto-input utility for wayland";
-      documentation = [ "man:ydotool(1)" "man:ydotoold(8)" ];
-      
+      documentation = [
+        "man:ydotool(1)"
+        "man:ydotoold(8)"
+      ];
+
       serviceConfig = {
         ExecStart = "/run/current-system/sw/bin/ydotoold --socket-path /tmp/ydotools";
       };
 
-      wantedBy = ["default.target"];
+      wantedBy = [ "default.target" ];
     };
     services = {
       NetworkManager-wait-online.enable = lib.mkForce false;
@@ -191,14 +208,14 @@ in
     enable = true;
     implementation = "broker";
   };
-  
+
   xdg.portal = {
     enable = true;
     wlr.enable = true;
     config.common.default = [ "wlr" ];
     extraPortals = [ pkgs.xdg-desktop-portal-wlr ];
   };
-  
+
   programs.dconf.enable = true;
   services.gnome.gnome-keyring.enable = true;
   security.pam.services.sddm.enableGnomeKeyring = true;
@@ -226,17 +243,15 @@ in
   #   })
   # ];
 
-
   services.udev.extraRules = ''
-  ACTION=="add",  \
-  SUBSYSTEM=="usb", \
-  ATTR{idVendor}=="04a9", \
-  ATTR{idProduct}=="317b",  \
-  RUN+="${startWebcam}/bin/start-webcam"
-'';
+    ACTION=="add",  \
+    SUBSYSTEM=="usb", \
+    ATTR{idVendor}=="04a9", \
+    ATTR{idProduct}=="317b",  \
+    RUN+="${startWebcam}/bin/start-webcam"
+  '';
 
-  boot.extraModulePackages = with config.boot.kernelPackages;
-  [ v4l2loopback.out ];
+  boot.extraModulePackages = with config.boot.kernelPackages; [ v4l2loopback.out ];
   boot.kernelModules = [
     "v4l2loopback"
   ];
@@ -274,38 +289,43 @@ in
 
   #Steam
   programs.steam = {
-      enable = true;
-      remotePlay.openFirewall = true; # Open ports in the firewall for Steam Remote Play
-      dedicatedServer.openFirewall = true; # Open ports in the firewall for Source Dedicated Server
-      localNetworkGameTransfers.openFirewall = true; # Open ports in the firewall for Steam Local Network Game Transfers
-      gamescopeSession.enable = true;
-    };
+    enable = true;
+    remotePlay.openFirewall = true; # Open ports in the firewall for Steam Remote Play
+    dedicatedServer.openFirewall = true; # Open ports in the firewall for Source Dedicated Server
+    localNetworkGameTransfers.openFirewall = true; # Open ports in the firewall for Steam Local Network Game Transfers
+    gamescopeSession.enable = true;
+  };
 
   networking.firewall = rec {
-  allowedTCPPortRanges = [ { from = 1714; to = 1764; } ];
-  allowedUDPPortRanges = allowedTCPPortRanges;
+    allowedTCPPortRanges = [
+      {
+        from = 1714;
+        to = 1764;
+      }
+    ];
+    allowedUDPPortRanges = allowedTCPPortRanges;
   };
 
   networking.nameservers = [
-  "1.1.1.1"
-  "1.0.0.1"
+    "1.1.1.1"
+    "1.0.0.1"
   ];
 
   services.resolved = {
-  enable = true;
-  dnssec = "true";
-  domains = [ "~." ];
-  fallbackDns = [
-    "1.1.1.1"
-    "1.0.0.1"
+    enable = true;
+    dnssec = "true";
+    domains = [ "~." ];
+    fallbackDns = [
+      "1.1.1.1"
+      "1.0.0.1"
     ];
-  dnsovertls = "true";
+    dnsovertls = "true";
   };
-   
-   # Enable mullvad service
-   networking.firewall.checkReversePath = "loose";
-   networking.wireguard.enable = true;
-   services.mullvad-vpn.enable = true;
-   networking.iproute2.enable = true; 
+
+  # Enable mullvad service
+  networking.firewall.checkReversePath = "loose";
+  networking.wireguard.enable = true;
+  services.mullvad-vpn.enable = true;
+  networking.iproute2.enable = true;
 
 }

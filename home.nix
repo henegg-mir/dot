@@ -26,6 +26,7 @@ in
     ./waybar.nix
     ./spicetify.nix
     ./wofi.nix
+    ./alacritty.nix
     inputs.nixcord.homeModules.nixcord
     inputs.zen.homeModules.beta
   ]);
@@ -62,6 +63,9 @@ in
         tree-sitter
         ripgrep
         tree
+        steamcmd
+        pandoc
+        texliveTeTeX
       ]
       ++ (lib.optionals (!server) [
         calibre
@@ -85,10 +89,19 @@ in
         polonium
         pavucontrol
         unofficial-homestuck-collection
+        blender
+        grim
+        slurp
+        imagemagick
+        wl-clipboard
+        pulsemeeter
+        zoxide
       ]);
     shell = {
       enableFishIntegration = true;
       enableBashIntegration = true;
+      enableZshIntegration = true;
+
     };
     shellAliases = {
       gst = "git status";
@@ -109,22 +122,59 @@ in
     };
     git = {
       enable = true;
-      userName = "egg";
-      userEmail = "egil@guting.se";
-      difftastic = {
-        enable = true;
-        options.background = "dark";
+      settings = {
+        user.name = "egg";
+        user.email = "egil@guting.se";
+        extraConfig = {
+          pull.rebase = true;
+          init.defaultBranch = "main";
+        };
       };
-      extraConfig = {
-        pull.rebase = true;
-        init.defaultBranch = "main";
+    };
+    difftastic = {
+      enable = true;
+      git.enable = true;
+      options.background = "dark";
+    };
+    eza = {
+      enable = true;
+      enableFishIntegration = true;
+      colors = "auto";
+      icons = "auto";
+    };
+    swappy = {
+      enable = true;
+      settings = {
+        Default = {
+          save_dir = "$HOME/Pictures";
+        };
       };
+    };
+    tmux = {
+      enable = true;
+      extraConfig = ''
+        set -g allow-passthrough on
+        set -g mouse on
+      '';
+      plugins = with pkgs; [
+        {
+          plugin = tmuxPlugins.rose-pine;
+          extraConfig = ''
+            set -g @rose_pine_variant 'main'
+            set -g @rose_pine_disable_active_window_menu 'on'
+            set -g @rose_pine_bar_bg_disable 'on'
+            set -g @rose_pine_window_separator ':'
+          '';
+        }
+      ];
     };
     fish = {
       enable = true;
       shellAliases = {
         cl = "fish_greeting";
-        ls = "ls -a";
+        cd = "z";
+        homestuck = "${pkgs.unofficial-homestuck-collection}/bin/unofficial-homestuck-collection";
+        ls = "eza -a";
       };
       generateCompletions = true;
       functions = {
@@ -132,11 +182,41 @@ in
           body = "${./greeting_script/centered_text} ~/images";
         };
       };
-      interactiveShellInit = lib.optionals server ("set TERM xterm-256color\n") + ''
+      interactiveShellInit = ''
         set -g fish_user_paths ${scripts} $fish_user_paths
          ${pkgs.any-nix-shell}/bin/any-nix-shell fish --info-right | source
+         zoxide init fish | source
       '';
-      shellInitLast = "direnv hook fish | source";
+      shellInitLast = ''
+        tmux attach || tmux
+        direnv hook fish | source
+      '';
+    };
+    zsh = {
+      enable = true;
+      enableCompletion = true;
+      autosuggestion.enable = true;
+      syntaxHighlighting.enable = true;
+
+      shellAliases = {
+        cl = "clear & ${./greeting_script/centered_text} ~/images";
+        cd = "z";
+        homestuck = "${pkgs.unofficial-homestuck-collection}/bin/unofficial-homestuck-collection";
+        ls = "eza -a";
+        ll = "eza -l";
+      };
+      history.size = 10000;
+      initContent = lib.mkMerge [
+        (lib.mkOrder 1000 ''
+          tmux attach || tmux
+          any-nix-shell zsh --info-right | source /dev/stdin
+          ${./greeting_script/centered_text} ~/images
+        '')
+        (lib.mkOrder 1500 ''
+          eval "$(direnv hook zsh)"
+          eval "$(zoxide init zsh)"
+        '')
+      ];
     };
     bash = {
       enable = true;
@@ -159,6 +239,7 @@ in
     vscode = {
       enable = true;
     };
+
     thunderbird = {
       enable = true;
       profiles = {
@@ -175,7 +256,6 @@ in
         PASSWORD_STORE_KEY = "AFE7F120FFC5258BF3A6762CB78E5600D1573D1D";
       };
     };
-
   };
   accounts.email.accounts = {
     chalmers = {

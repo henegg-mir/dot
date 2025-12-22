@@ -12,7 +12,10 @@
     ./image.nix
     ./oil.nix
     ./lualine.nix
+    ./markdown-preview.nix
+    ./cmp.nix
   ];
 
   programs.nixvim.enable = true;
+  programs.nixvim.clipboard.register = "unnamedplus";
 }

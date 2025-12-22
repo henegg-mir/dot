@@ -49,7 +49,6 @@ in
         {
           command = "swayidle -w timeout 300 '${./swaylock.bash} --grace 2 --fade-in 0.2' timeout 900 'systemctl suspend' before-sleep '${./swaylock.bash}'";
         }
-        { command = "autotiling-rs"; }
       ];
       gaps = {
         outer = 5;
@@ -57,8 +56,8 @@ in
       };
       keybindings = {
         "${modifier}+l" = "exec ${./swaylock.bash}";
-        "${modifier}+Return" = "exec ${pkgs.kitty}/bin/kitty";
-        "${modifier}+e" = "exec ${pkgs.kitty}/bin/kitty --class='termfloat'";
+        "${modifier}+Return" = "exec ${pkgs.alacritty}/bin/alacritty";
+        "${modifier}+e" = "exec ${pkgs.alacritty}/bin/alacritty --class='termfloat'";
         "${modifier}+p" = "exec ${rofi/passmenu.bash} --type";
         "${modifier}+p+Shift" = "exec ${rofi/passmenu.bash}";
         "${modifier}+q" = "kill";
@@ -94,8 +93,12 @@ in
         "${modifier}+Shift+right" = "move right";
         "${modifier}+Shift+up" = "move up";
         "${modifier}+Shift+down" = "move down";
-        "${modifier}+left" = "workspace prev";
-        "${modifier}+right" = "workspace next";
+        "${modifier}+left" = "focus left";
+        "${modifier}+right" = "focus right";
+        "Insert" =
+          "exec ${pkgs.grim}/bin/grim -g \"$(${pkgs.slurp}/bin/slurp)\" - | ${pkgs.swappy}/bin/swappy -f -";
+        "${modifier}+t" = "layout tabbed";
+        "${modifier}+s" = "layout splith";
 
         "XF86MonBrightnessDown" = "exec brightnessctl set 5%-";
         "XF86MonBrightnessUp" = "exec brightnessctl set 5%+";
@@ -124,7 +127,7 @@ in
       	        corner_radius 10
                   for_window [class="Code"] opacity 0.78
                   for_window [class="Spotify"] opacity 0.90
-                  for_window [app_id="kitty"] opacity 1
+                  for_window [app_id="kitty"] opacity 1, focus
                   for_window [app_id="termfloat"]                  floating enable
                   for_window [app_id="termfloat"]                  resize set height 540
                   for_window [app_id="termfloat"]                  resize set width 960
@@ -134,6 +137,7 @@ in
                   for_window [app_id ="org.pulseaudio.pavucontrol"] opacity 0.90
                   for_window [app_id ="blueberry.py"] opacity 0.90
                   for_window [app_id ="grc-prompter"] opacity 0.90
+                  for_window [app_id ="org.pwmt.zathura"] focus
                   bindsym Shift+Ctrl+h             resize shrink width  5 px or 5 ppt
                   bindsym Shift+Ctrl+k             resize grow   height 5 px or 5 ppt
                   bindsym Shift+Ctrl+j             resize shrink height 5 px or 5 ppt
