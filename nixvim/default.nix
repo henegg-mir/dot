@@ -1,3 +1,4 @@
+{ pkgs, ... }:
 {
   imports = [
     ./treesitter.nix
@@ -14,8 +15,11 @@
     ./lualine.nix
     ./markdown-preview.nix
     ./cmp.nix
+    ./instant.nix
   ];
 
   programs.nixvim.enable = true;
   programs.nixvim.clipboard.register = "unnamedplus";
+
+  programs.nixvim.extraPlugins = [ pkgs.vimPlugins.live-share-nvim ];
 }

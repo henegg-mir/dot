@@ -52,7 +52,7 @@ in
       ];
       gaps = {
         outer = 5;
-        inner = 10;
+        inner = 0;
       };
       keybindings = {
         "${modifier}+l" = "exec ${./swaylock.bash}";
@@ -97,6 +97,8 @@ in
         "${modifier}+right" = "focus right";
         "Insert" =
           "exec ${pkgs.grim}/bin/grim -g \"$(${pkgs.slurp}/bin/slurp)\" - | ${pkgs.swappy}/bin/swappy -f -";
+        "Print" =
+          "exec ${pkgs.grim}/bin/grim -g \"$(${pkgs.slurp}/bin/slurp)\" - | ${pkgs.swappy}/bin/swappy -f -";
         "${modifier}+t" = "layout tabbed";
         "${modifier}+s" = "layout splith";
 
@@ -109,6 +111,9 @@ in
         "XF86AudioNext" = "exec playerctl next";
         "XF86AudioPrev" = "exec playerctl previous";
         #"XF86AudioMicMute" = exec pamixer --default-source -t
+      };
+      keycodebindings = {
+
       };
       input."*".xkb_layout = "se";
       input."5426:110:Razer_Razer_DeathAdder_Essential".natural_scroll = "disabled";
@@ -174,9 +179,9 @@ in
                   workspace 9 output $monitor_2
                   workspace 10 output $monitor_2
 
-                  output $monitor_1 pos 0 0 res 1920x1080@59.940Hz power on bg ${./dream.jpg} fill scale_filter nearest
-                  output $monitor_2 pos 1920 0 res 2560x1440@59.940Hz power on bg ${./dream.jpg} fill scale_filter nearest
-                  output eDP-1 res 1920x1080@59.997Hz bg ${./dream.jpg} fill scale_filter nearest
+                  output $monitor_1 pos 0 0 res 1920x1080@59.940Hz power on bg ${./add_black_pink.png} fill scale_filter nearest
+                  output $monitor_2 pos 1920 0 res 2560x1440@59.940Hz power on bg ${./add_black_pink.png} fill scale_filter nearest
+                  output eDP-1 res 1920x1080@59.997Hz bg ${./add_black_pink.png} fill scale_filter nearest
 
     '';
 

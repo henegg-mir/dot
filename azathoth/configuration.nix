@@ -166,6 +166,7 @@ in
   #   enableSSHSupport = true;
   # };
 
+  programs.nix-ld.enable = true;
   programs.zsh.enable = true;
   programs.fish.enable = true;
 
@@ -313,13 +314,15 @@ in
 
   services.resolved = {
     enable = true;
-    dnssec = "true";
-    domains = [ "~." ];
-    fallbackDns = [
-      "1.1.1.1"
-      "1.0.0.1"
-    ];
-    dnsovertls = "true";
+    settings.Resolve = {
+      dnssec = "true";
+      domains = [ "~." ];
+      fallbackDns = [
+        "1.1.1.1"
+        "1.0.0.1"
+      ];
+      dnsovertls = "true";
+    };
   };
 
   # Enable mullvad service

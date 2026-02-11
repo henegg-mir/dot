@@ -1,6 +1,6 @@
 {
   programs.nixvim.plugins.image = {
-    enable = true;
+    enable = false;
     settings = {
       editor_only_render_when_focused = true;
     };

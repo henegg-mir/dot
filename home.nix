@@ -27,7 +27,6 @@ in
     ./spicetify.nix
     ./wofi.nix
     ./alacritty.nix
-    inputs.nixcord.homeModules.nixcord
     inputs.zen.homeModules.beta
   ]);
 
@@ -96,6 +95,9 @@ in
         wl-clipboard
         pulsemeeter
         zoxide
+        spotify-player
+        prismlauncher
+        mendeley
       ]);
     shell = {
       enableFishIntegration = true;

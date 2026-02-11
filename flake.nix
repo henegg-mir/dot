@@ -24,9 +24,7 @@
     spicetify = {
       url = "github:Gerg-L/spicetify-nix";
     };
-    nixcord = {
-      url = "github:kaylorben/nixcord";
-    };
+
     nixvim = {
       url = "github:nix-community/nixvim";
       # If using a stable channel you can use `url = "github:nix-community/nixvim/nixos-<version>"`
@@ -38,7 +36,7 @@
     {
       nixpkgs,
       nixpkgs-2505,
-      lix-module,
+      #lix-module,
       home-manager,
       ...
     }@inputs:
@@ -70,16 +68,24 @@
           inherit pkgs;
           modules = [
             ./azathoth/configuration.nix
-            lix-module.nixosModules.default
+            #lix-module.nixosModules.default
           ];
         };
         zamacona = nixpkgs.lib.nixosSystem {
           inherit pkgs;
           modules = [
             ./zamacona/configuration.nix
-            lix-module.nixosModules.default
+            #lix-module.nixosModules.default
           ];
         };
+        yorith = nixpkgs.lib.nixosSystem {
+          inherit pkgs;
+          modules = [
+            ./yorith/configuration.nix
+            #lix-module.nixosModules.default
+          ];
+        };
+
       };
 
       homeConfigurations = {
@@ -91,7 +97,7 @@
           };
           modules = [
             ./home.nix
-            lix-module.nixosModules.default
+            #lix-module.nixosModules.default
           ];
         };
         zamacona = home-manager.lib.homeManagerConfiguration {
@@ -102,8 +108,19 @@
           };
           modules = [
             ./home.nix
-            lix-module.nixosModules.default
+            #lix-module.nixosModules.default
           ];
+        yorith = home-manager.lib.homeManagerConfiguration {
+          inherit pkgs;
+          extraSpecialArgs = {
+            inherit inputs;
+            server = false;
+          };
+          modules = [
+            ./home.nix
+            #lix-module.nixosModules.default
+          ];
+        };
         };
       };
     };
