@@ -7,12 +7,15 @@ LINES=$(tput lines)
 if (($LINES == 29)); then
     printf '%.0s\n' {1..40}
     (jp2a --color --term-center $OUTPUT;)
+    echo $OUTPUT
 elif (($COLS <= 100)); then
     printf '%.0s\n' {1..40}
     (jp2a --color --term-center $OUTPUT;)
+    echo $OUTPUT
 else
     printf '%.0s\n' {1..40}
     (jp2a --color --width=100 --term-center $OUTPUT;)
+    echo $OUTPUT
 fi
 
 
