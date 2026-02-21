@@ -141,7 +141,7 @@ in
       #  thunderbird
     ];
   };
-
+  environment.systemPackages = with pkgs; [wakeonlan];
   # Install firefox.
   # List packages installed in system profile. To search, run:
   # $ nix search wget
