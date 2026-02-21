@@ -98,6 +98,7 @@ in
         spotify-player
         prismlauncher
         mendeley
+        gif2apng
       ]);
     shell = {
       enableFishIntegration = true;
@@ -157,6 +158,10 @@ in
       extraConfig = ''
         set -g allow-passthrough on
         set -g mouse on
+        bind -n C-t new-window
+        bind -n C-q kill-window
+        bind -n C-l next
+        bind -n C-k prev
       '';
       plugins = with pkgs; [
         {

@@ -19,48 +19,6 @@
         font = {
           size = 11.1;
         };
-        keyboard.bindings = [
-          {
-            key = "T";
-            mods = "Control | Shift";
-            command = {
-              program = "tmux";
-              args = [ "new-window" ];
-            };
-          }
-          {
-            key = "Tab";
-            mods = "Control";
-            command = {
-              program = "tmux";
-              args = [ "next" ];
-            };
-          }
-          {
-            key = "Tab";
-            mods = "Control | Shift";
-            command = {
-              program = "tmux";
-              args = [ "prev" ];
-            };
-          }
-          {
-            key = "W";
-            mods = "Control | Shift";
-            command = {
-              program = "tmux";
-              args = [ "killw" ];
-            };
-          }
-          {
-            key = "Q";
-            mods = "Super";
-            command = {
-              program = "tmux";
-              args = [ "kill-session" ];
-            };
-          }
-        ];
         colors = {
           selection = {
             text = "#1c1621";
