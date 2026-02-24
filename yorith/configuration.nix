@@ -65,15 +65,45 @@ in
   #nvidia
   hardware.graphics = {
     enable = true;
+    extraPackages = with pkgs; [
+      vulkan-loader
+      vulkan-validation-layers
+      vulkan-extension-layer
+    ];
   };
 
   hardware.nvidia = {
     modesetting.enable = true;
-    open = lib.mkOverride 990 (nvidiaPackage ? open && nvidiaPackage ? firmware);
+    open = true;
     nvidiaSettings = true;
   };
 
-  networking.hostName = "yorith"; # Define your hostname.
+  networking = {
+    hostName = "yorith"; # Define your hostname.
+    interfaces = {
+      enp12s0 = {
+        wakeOnLan.enable = true;
+      };
+    };
+    firewall = {
+      allowedTCPPortRanges = [
+        {
+          from = 9;
+          to = 9;
+        }
+        {
+          from = 1714;
+          to = 1764;
+        }
+      ];
+      allowedUDPPortRanges = [
+        {
+          from = 1714;
+          to = 1764;
+        }
+      ];
+    };
+  };
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
   # Configure network proxy if necessary
@@ -105,9 +135,13 @@ in
   services.xserver.enable = true;
 
   # Enable the GNOME Desktop Environment.
-  services.xserver.displayManager.gdm.enable = true;
   services.xserver.desktopManager.gnome.enable = true;
   programs.sway.enable = true;
+  # displayManager.sddm = {
+  #   enable = true;
+  #   theme = "catppuccin-mocha-mauve";
+  #   package = pkgs.kdePackages.sddm;
+  # };
 
   # Configure keymap in X11
   services.xserver.xkb = {
@@ -256,8 +290,33 @@ in
   # List services that you want to enable:
 
   # Enable the OpenSSH daemon.
-  # services.openssh.enable = true;
+  services.openssh = {
+    enable = true;
+    ports = [
+      1001
+    ];
+    settings = {
+      PasswordAuthentication = false;
+      KbdInteractiveAuthentication = true;
+      PermitRootLogin = "no";
+      AllowUsers = [ "egg" ];
+      X11Forwarding = true;
+    };
+  };
 
+  services.fail2ban = {
+    enable = true;
+    # Ban IP after 5 failures
+    maxretry = 5;
+    ignoreIP = [ ];
+    bantime = "24h"; # Ban IPs for one day on the first ban
+    bantime-increment = {
+      enable = true; # Enable increment of bantime after each violation
+      formula = "ban.Time * math.exp(float(ban.Count+1)*banFactor)/math.exp(1*banFactor)";
+      maxtime = "168h"; # Do not ban for more than 1 week
+      overalljails = true; # Calculate the bantime based on all the violations
+    };
+  };
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
   # networking.firewall.allowedUDPPorts = [ ... ];
@@ -271,16 +330,6 @@ in
     dedicatedServer.openFirewall = true; # Open ports in the firewall for Source Dedicated Server
     localNetworkGameTransfers.openFirewall = true; # Open ports in the firewall for Steam Local Network Game Transfers
     gamescopeSession.enable = true;
-  };
-
-  networking.firewall = rec {
-    allowedTCPPortRanges = [
-      {
-        from = 1714;
-        to = 1764;
-      }
-    ];
-    allowedUDPPortRanges = allowedTCPPortRanges;
   };
 
   networking.nameservers = [
@@ -316,15 +365,6 @@ in
   # };
 
   # List services that you want to enable:
-
-  # Enable the OpenSSH daemon.
-  # services.openssh.enable = true;
-
-  # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
-  # Or disable the firewall altogether.
-  # networking.firewall.enable = false;
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions

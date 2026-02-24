@@ -38,6 +38,7 @@ in
     packages =
       with pkgs;
       [
+
         cbonsai
         unzip
         jq
@@ -65,8 +66,10 @@ in
         steamcmd
         pandoc
         texliveTeTeX
+        zoxide
       ]
       ++ (lib.optionals (!server) [
+        cudatoolkit
         calibre
         obsidian
         zoom-us
@@ -94,11 +97,12 @@ in
         imagemagick
         wl-clipboard
         pulsemeeter
-        zoxide
         spotify-player
         prismlauncher
         mendeley
         gif2apng
+        clonehero
+        ani-cli
       ]);
     shell = {
       enableFishIntegration = true;
