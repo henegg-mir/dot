@@ -70,7 +70,6 @@ in
       ]
       ++ (lib.optionals (!server) [
         cudatoolkit
-        calibre
         obsidian
         zoom-us
         ffmpeg
@@ -86,7 +85,6 @@ in
         icomoon-feather
         wl-gammarelay-rs
         dmenu
-        kde-rounded-corners
         blueberry
         polonium
         pavucontrol

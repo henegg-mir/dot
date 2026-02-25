@@ -12,7 +12,6 @@ let
   startWebcam = pkgs.writeShellScriptBin "start-webcam" ''
     systemctl restart webcam
   '';
-  nvidiaPackage = config.hardware.nvidia.package;
 in
 {
   imports = [
@@ -131,11 +130,7 @@ in
     LC_TIME = "sv_SE.UTF-8";
   };
 
-  # Enable the X11 windowing system.
-  services.xserver.enable = true;
-
   # Enable the GNOME Desktop Environment.
-  services.xserver.desktopManager.gnome.enable = true;
   programs.sway.enable = true;
   # displayManager.sddm = {
   #   enable = true;

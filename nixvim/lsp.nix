@@ -7,6 +7,7 @@
 }:
 {
   programs.nixvim.plugins = {
+    inc-rename.enable = true;
     lsp-format = {
       enable = true;
     };
