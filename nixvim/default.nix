@@ -2,6 +2,7 @@
 {
   imports = [
     ./treesitter.nix
+    ./dap.nix
     ./lsp.nix
     ./direnv.nix
     ./colorscheme.nix

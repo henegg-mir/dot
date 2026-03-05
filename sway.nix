@@ -116,6 +116,8 @@ in
 
       };
       input."*".xkb_layout = "se";
+      input."*".repeat_rate = "70";
+      input."*".repeat_delay = "290";
       input."5426:110:Razer_Razer_DeathAdder_Essential".natural_scroll = "disabled";
       input."*".natural_scroll = "enabled";
       input."*".scroll_factor = "2.5";

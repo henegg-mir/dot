@@ -30,6 +30,11 @@
       # If using a stable channel you can use `url = "github:nix-community/nixvim/nixos-<version>"`
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    millennium = {
+      url = "github:SteamClientHomebrew/Millennium?dir=packages/nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -58,6 +63,7 @@
         };
         overlays = [
           overlay-2505
+          inputs.millennium.overlays.default
         ];
       };
       lib = nixpkgs;
@@ -110,7 +116,7 @@
             ./home.nix
             #lix-module.nixosModules.default
           ];
-	  };
+        };
         yorith = home-manager.lib.homeManagerConfiguration {
           inherit pkgs;
           extraSpecialArgs = {
@@ -122,6 +128,6 @@
             #lix-module.nixosModules.default
           ];
         };
-        };
+      };
     };
 }
