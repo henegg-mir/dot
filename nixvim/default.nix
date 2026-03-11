@@ -1,6 +1,7 @@
 { pkgs, ... }:
 {
   imports = [
+    ./dashboard.nix
     ./treesitter.nix
     ./dap.nix
     ./lsp.nix

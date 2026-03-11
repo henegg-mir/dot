@@ -50,7 +50,6 @@
       overlay-2505 = final: prev: {
         stable = import nixpkgs-2505 {
           inherit system;
-          config.allowUnfree = true;
         };
       };
       pkgs = import nixpkgs {
@@ -100,6 +99,7 @@
           extraSpecialArgs = {
             inherit inputs;
             server = false;
+            desktop = false;
           };
           modules = [
             ./home.nix
@@ -111,6 +111,7 @@
           extraSpecialArgs = {
             inherit inputs;
             server = true;
+            desktop = false;
           };
           modules = [
             ./home.nix
@@ -122,6 +123,7 @@
           extraSpecialArgs = {
             inherit inputs;
             server = false;
+            desktop = true;
           };
           modules = [
             ./home.nix

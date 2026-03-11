@@ -45,9 +45,16 @@ in
   };
 
   # Bootloader.
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
-
+  boot.loader = {
+    grub = {
+      enable = true;
+      device = "nodev";
+      efiSupport = true;
+      theme = "${../yorha-2560x1440}";
+      useOSProber = true;
+    };
+    efi.canTouchEfiVariables = true;
+  };
   #nixos-hardware
   boot.blacklistedKernelModules = [ "k10temp" ];
   boot.extraModulePackages = with config.boot.kernelPackages; [

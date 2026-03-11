@@ -79,14 +79,14 @@
           desc = "Search files";
         };
       }
-      # Telescope search commands
+      # Telescope search references
       {
-        action = ":Telescope commands<CR>";
-        key = "<leader>sc";
+        action = ":Telescope lsp_references<CR>";
+        key = "<leader>sr";
         options = {
           silent = true;
           noremap = true;
-          desc = "Search commands";
+          desc = "Search references";
         };
       }
       # Telescope quickfixlist

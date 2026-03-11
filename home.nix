@@ -4,6 +4,7 @@
   pkgs,
   inputs,
   server,
+  desktop,
   ...
 }:
 let
@@ -68,40 +69,47 @@ in
         texliveTeTeX
         zoxide
       ]
-      ++ (lib.optionals (!server) [
-        cudatoolkit
-        obsidian
-        zoom-us
-        ffmpeg
-        nicotine-plus
-        gphoto2
-        mpv
-        quark-goldleaf
-        godot
-        qbittorrent
-        vlc
-        autotiling-rs
-        swaybg
-        icomoon-feather
-        wl-gammarelay-rs
-        dmenu
-        blueberry
-        polonium
-        pavucontrol
-        unofficial-homestuck-collection
-        blender
-        grim
-        slurp
-        imagemagick
-        wl-clipboard
-        pulsemeeter
-        spotify-player
-        prismlauncher
-        mendeley
-        gif2apng
-        clonehero
-        ani-cli
-      ]);
+      ++ (
+        lib.optionals (!server) [
+          cudatoolkit
+          obsidian
+          zoom-us
+          ffmpeg
+          nicotine-plus
+          gphoto2
+          mpv
+          quark-goldleaf
+          godot
+          qbittorrent
+          vlc
+          autotiling-rs
+          swaybg
+          icomoon-feather
+          wl-gammarelay-rs
+          dmenu
+          blueberry
+          polonium
+          pavucontrol
+          unofficial-homestuck-collection
+          blender
+          grim
+          slurp
+          imagemagick
+          wl-clipboard
+          pulsemeeter
+          spotify-player
+          prismlauncher
+          mendeley
+          gif2apng
+          clonehero
+          ani-cli
+          xprop
+          wmctrl
+        ]
+        ++ (lib.optionals desktop) [
+
+        ]
+      );
     shell = {
       enableFishIntegration = true;
       enableBashIntegration = true;
