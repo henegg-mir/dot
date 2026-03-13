@@ -1,6 +1,7 @@
 { pkgs, ... }:
 {
   imports = [
+    ./mini.nix
     ./neo-tree.nix
     ./dashboard.nix
     ./treesitter.nix

@@ -87,7 +87,7 @@ in
           icomoon-feather
           wl-gammarelay-rs
           dmenu
-          blueberry
+          blueman
           polonium
           pavucontrol
           unofficial-homestuck-collection
