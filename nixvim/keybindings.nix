@@ -33,10 +33,10 @@
       }
       # Open Ntree
       {
-        action = ":Ntree<CR>";
+        action = ":Neotree toggle<CR>";
         key = "<leader>nt";
         options = {
-          desc = "Ntree";
+          desc = "Neo-tree";
         };
       }
       # oil mapping for file tree
@@ -46,7 +46,7 @@
         options = {
           silent = true;
           noremap = true;
-          desc = "Oil Mapping";
+          desc = "Oil";
         };
       }
       # Telescope search buffers
@@ -97,6 +97,16 @@
           silent = true;
           noremap = true;
           desc = "Quickfix list";
+        };
+      }
+      # Dashboard
+      {
+        action = ":Dashboard<CR>";
+        key = "<leader>db";
+        options = {
+          silent = true;
+          noremap = true;
+          desc = "Dashboard";
         };
       }
     ];
