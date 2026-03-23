@@ -89,6 +89,16 @@
           desc = "Search references";
         };
       }
+      # Telescope live grep
+      {
+        action = ":Telescope live_grep<CR>";
+        key = "<leader>sg";
+        options = {
+          silent = true;
+          noremap = true;
+          desc = "Live grep";
+        };
+      }
       # Telescope quickfixlist
       {
         action = ":Telescope quickfix<CR>";

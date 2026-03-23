@@ -153,7 +153,7 @@ in
 
   hardware.bluetooth.enable = true;
   hardware.bluetooth.powerOnBoot = true;
-
+  services.joycond.enable = true;
   # Configure console keymap
   console.keyMap = "sv-latin1";
 

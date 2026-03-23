@@ -41,7 +41,7 @@ in
         };
       };
       bars = [ ];
-      terminal = "kitty";
+      terminal = "alacritty";
       modifier = "Mod4";
       startup = [
         { command = "wl-gammarelay-rs"; }

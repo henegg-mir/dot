@@ -107,7 +107,7 @@ in
           wmctrl
         ]
         ++ (lib.optionals desktop) [
-
+          cemu
         ]
       );
     shell = {
