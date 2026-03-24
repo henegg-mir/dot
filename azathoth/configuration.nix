@@ -89,7 +89,6 @@ in
   #   theme = "catppuccin-mocha-mauve";
   #   package = pkgs.kdePackages.sddm;
   # };
-  services.desktopManager.plasma6.enable = true;
   programs.sway.enable = true;
 
   # Configure keymap in X11

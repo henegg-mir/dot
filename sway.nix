@@ -56,7 +56,7 @@ in
       };
       keybindings = {
         "${modifier}+l" = "exec ${./swaylock.bash}";
-        "${modifier}+Return" = "exec ${pkgs.alacritty}/bin/alacritty";
+        "${modifier}+Return" = "exec ${pkgs.alacritty}/bin/alacritty -e tmux attach || tmux";
         "${modifier}+e" = "exec ${pkgs.alacritty}/bin/alacritty --class='termfloat'";
         "${modifier}+p" = "exec ${rofi/passmenu.bash} --type";
         "${modifier}+p+Shift" = "exec ${rofi/passmenu.bash}";
@@ -128,7 +128,7 @@ in
       };
       window.titlebar = false;
     };
-    extraOptions = ["--unsupported-gpu"];
+    extraOptions = [ "--unsupported-gpu" ];
     extraConfig = ''
                   bindgesture swipe:right workspace prev
                   bindgesture swipe:left workspace next

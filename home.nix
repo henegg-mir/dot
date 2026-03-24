@@ -71,7 +71,6 @@ in
       ]
       ++ (
         lib.optionals (!server) [
-          cudatoolkit
           obsidian
           zoom-us
           ffmpeg
@@ -205,7 +204,6 @@ in
          zoxide init fish | source
       '';
       shellInitLast = ''
-        tmux attach || tmux
         direnv hook fish | source
       '';
     };
