@@ -56,7 +56,10 @@ in
       };
       keybindings = {
         "${modifier}+l" = "exec ${./swaylock.bash}";
-        "${modifier}+Return" = "exec ${pkgs.alacritty}/bin/alacritty -e tmux attach || tmux";
+        "${modifier}+Return" = ''
+          exec ${pkgs.alacritty}/bin/alacritty --command sh -c "tmux attach || tmux"
+        '';
+        "${modifier}+Shift+Return" = "exec ${pkgs.alacritty}/bin/alacritty";
         "${modifier}+e" = "exec ${pkgs.alacritty}/bin/alacritty --class='termfloat'";
         "${modifier}+p" = "exec ${rofi/passmenu.bash} --type";
         "${modifier}+p+Shift" = "exec ${rofi/passmenu.bash}";
@@ -165,8 +168,9 @@ in
                       corner_radius 15
                   }
                   set $laptop eDP-1
-                  set $monitor_1 "AOC 24P1W1 HEBM4HA026735"
+                  set $monitor_1 "LG Electronics LG ULTRAGEAR 0x000A4E82"
                   set $monitor_2 "Huawei Technologies Co., Inc. XWU-CBA 0x00000001"
+                  set $monitor_3 "AOC 24P1W1 HEBM4HA026735"
                   bindswitch --reload --locked lid:on output $laptop disable
                   bindswitch --reload --locked lid:off output $laptop enable
                   exec_always ${./clamshell.sh}
@@ -175,15 +179,16 @@ in
                   workspace 2 output $monitor_1
                   workspace 3 output $monitor_1
                   workspace 4 output $monitor_1
-                  workspace 5 output $monitor_1 HDMI-A-1
+                  workspace 5 output $monitor_2 HDMI-A-1
                   workspace 6 output $monitor_2
-                  workspace 7 output $monitor_2
-                  workspace 8 output $monitor_2
-                  workspace 9 output $monitor_2
-                  workspace 10 output $monitor_2
+                  workspace 7 output $monitor_3
+                  workspace 8 output $monitor_3
+                  workspace 9 output $monitor_3
+                  workspace 10 output $monitor_3
 
-                  output $monitor_1 pos 0 0 res 1920x1080@59.940Hz power on bg ${./add_black_pink.png} fill scale_filter nearest
-                  output $monitor_2 pos 1920 0 res 2560x1440@59.940Hz power on bg ${./add_black_pink.png} fill scale_filter nearest
+                  output $monitor_1 pos 0 0 res 1920x1080@59.939Hz power on bg ${./add_black_pink.png} fill scale_filter nearest
+                  output $monitor_2 pos 1920 0 res 2560x1440@164.802Hz power on bg ${./add_black_pink.png} fill scale_filter nearest
+                  output $monitor_3 pos 4480 0 res 1920x1080@119.982Hz power on bg ${./add_black_pink.png} fill scale_filter nearest transform 270 
                   output eDP-1 res 1920x1080@59.997Hz bg ${./add_black_pink.png} fill scale_filter nearest
 
     '';
