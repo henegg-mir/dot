@@ -1,446 +1,578 @@
-{ config, lib, pkgs, ... }:
+{
+  lib,
+  desktop,
+  ...
+}:
 
 {
-    programs.waybar = {
-        enable = true;
-        style = ''
-            * {
-            /* `otf-font-awesome` is required to be installed for icons */
-            font-family: "JetBrainsMono Nerd Font";
-            font-size: 17px;
-            }
+  programs.waybar = {
+    enable = true;
+    style = ''
+      * {
+      /* `otf-font-awesome` is required to be installed for icons */
+      font-family: "JetBrainsMono Nerd Font";
+      font-size: 17px;
+      }
+      window.DP-4 * { font-size: 18px; }
+      window.DP-6 * { font-size: 22px; }
+      window#waybar {
+      background-color: rgba(83, 83, 90, 0.0);
+      color: #ffffff;
+      transition-property: background-color;
+      transition-duration: 0.5s;
+      border-top: 8px transparent;
+      border-radius: 8px;
+      transition-duration: 0.5s;
+      margin: 16px 16px;
+      }
 
-            window#waybar {
-            background-color: rgba(83, 83, 90, 0.3);
-            color: #ffffff;
-            transition-property: background-color;
-            transition-duration: 0.5s;
-            border-top: 8px transparent;
-            border-radius: 8px;
-            transition-duration: 0.5s;
-            margin: 16px 16px;
-            }
+      window#waybar.hidden {
+      opacity: 0.2;
+      }
 
-            window#waybar.hidden {
-            opacity: 0.2;
-            }
+      #workspaces button {
+      padding: 0 5px;
+      color:rgb(64, 104, 67);
+      background-color: transparent;
+      /* Use box-shadow instead of border so the text isn't offset */
+      box-shadow: inset 0 -3px transparent;
+      /* Avoid rounded borders under each workspace name */
+      border: none;
+      border-radius: 8px;
+      }
 
-            #workspaces button {
-            padding: 0 5px;
-            color:rgb(64, 104, 67);
-            background-color: transparent;
-            /* Use box-shadow instead of border so the text isn't offset */
-            box-shadow: inset 0 -3px transparent;
-            /* Avoid rounded borders under each workspace name */
-            border: none;
-            border-radius: 8px;
-            }
+      #workspaces button.focused {
+      color:#bf6188;
+      }
 
-            #workspaces button.focused {
-            color:#bf6188;
-            }
+      #workspaces button.active {
+      color: #6a92d7;
+      }
 
-            #workspaces button.active {
-            color: #6a92d7;
-            }
+      #window {
+      /* border-radius: 20px; */
+      /* padding-left: 10px; */
+      /* padding-right: 10px; */
+      color: #64727d;
+      }
 
-            #window {
-            /* border-radius: 20px; */
-            /* padding-left: 10px; */
-            /* padding-right: 10px; */
-            color: #64727d;
-            }
+      #clock,
+      #battery,
+      #cpu,
+      #memory,
+      #disk,
+      #temperature,
+      #backlight,
+      #network,
+      #pulseaudio,
+      #custom-media,
+      #tray,
+      #mode,
+      #mpd,
+      #bluetooth,
+      #custom-power-menu,
+      #custom-spotify,
+      #custom-weather,
+      #custom-weather.severe,
+      #custom-weather.sunnyDay,
+      #custom-weather.clearNight,
+      #custom-weather.cloudyFoggyDay,
+      #custom-weather.cloudyFoggyNight,
+      #custom-weather.rainyDay,
+      #custom-weather.rainyNight,
+      #custom-weather.showyIcyDay,
+      #custom-weather.snowyIcyNight,
+      #custom-weather.default {
+      padding: 0 10px;
+      color: #e5e5e5;
+      /* color: #bf616a; */
+      border-radius: 9.5px;
+      background-color:rgba(32, 32, 32, 0.66);
+      }
 
-            #clock,
-            #battery,
-            #cpu,
-            #memory,
-            #disk,
-            #temperature,
-            #backlight,
-            #network,
-            #pulseaudio,
-            #custom-media,
-            #tray,
-            #mode,
-            #mpd,
-            #bluetooth,
-            #custom-power-menu,
-            #custom-spotify,
-            #custom-weather,
-            #custom-weather.severe,
-            #custom-weather.sunnyDay,
-            #custom-weather.clearNight,
-            #custom-weather.cloudyFoggyDay,
-            #custom-weather.cloudyFoggyNight,
-            #custom-weather.rainyDay,
-            #custom-weather.rainyNight,
-            #custom-weather.showyIcyDay,
-            #custom-weather.snowyIcyNight,
-            #custom-weather.default {
-            padding: 0 10px;
-            color: #e5e5e5;
-            /* color: #bf616a; */
-            border-radius: 9.5px;
-            background-color:rgba(32, 32, 32, 0.66);
-            }
+      #battery {
+      background-color:rgb(28, 31, 34);
+      }
 
-            #battery {
-            background-color:rgb(28, 31, 34);
-            }
+      #window,
+      #workspaces {
+      margin: 0 4px;
+      padding: 0 7 0 3px;
+      border-radius: 7.8px;
+      background-color:rgba(32, 32, 32, 0.75);
+      }
 
-            #window,
-            #workspaces {
-            margin: 0 4px;
-            padding: 0 7 0 3px;
-            border-radius: 7.8px;
-            background-color:rgba(32, 32, 32, 0.75);
-            }
+      #cpu {
+      color: #fb958b;
+      background-color: #1f2530;
+      }
 
-            #cpu {
-            color: #fb958b;
-            background-color: #1f2530;
-            }
+      #memory {
+      color: #ebcb8b;
+      background-color: #1f2530;
+      }
 
-            #memory {
-            color: #ebcb8b;
-            background-color: #1f2530;
-            }
+      #custom-wl-gammarelay-temperature,
+      #custom-power-menu {
+      border-radius: 9.5px;
+      background-color:rgba(35, 30, 49, 0.73);
+      border-radius: 7.5px;
+      padding: 0 5px;
+      }
 
-            #custom-wl-gammarelay-temperature,
-            #custom-power-menu {
-            border-radius: 9.5px;
-            background-color:rgba(35, 30, 49, 0.73);
-            border-radius: 7.5px;
-            padding: 0 5px;
-            }
+      #custom-power-menu{
+          padding: 0 7 0 3px;
+      }
 
-            #custom-power-menu{
-                padding: 0 7 0 3px;
-            }
+      #custom-launcher {
+      background-color: #1b242b;
+      color: #6a92d7;
+      border-radius: 7.5px;
+      padding: 0 3px;
+      }
 
-            #custom-launcher {
-            background-color: #1b242b;
-            color: #6a92d7;
-            border-radius: 7.5px;
-            padding: 0 3px;
-            }
+      #custom-weather.severe {
+      color: #eb937d;
+      }
 
-            #custom-weather.severe {
-            color: #eb937d;
-            }
+      #custom-weather.sunnyDay {
+      color: #c2ca76;
+      }
 
-            #custom-weather.sunnyDay {
-            color: #c2ca76;
-            }
+      #custom-weather.clearNight {
+      color: #cad3f5;
+      }
 
-            #custom-weather.clearNight {
-            color: #cad3f5;
-            }
+      #custom-weather.cloudyFoggyDay,
+      #custom-weather.cloudyFoggyNight {
+      color: #c2ddda;
+      }
 
-            #custom-weather.cloudyFoggyDay,
-            #custom-weather.cloudyFoggyNight {
-            color: #c2ddda;
-            }
+      #custom-weather.rainyDay,
+      #custom-weather.rainyNight {
+      color: #5aaca5;
+      }
 
-            #custom-weather.rainyDay,
-            #custom-weather.rainyNight {
-            color: #5aaca5;
-            }
+      #custom-weather.showyIcyDay,
+      #custom-weather.snowyIcyNight {
+      color: #d6e7e5;
+      }
 
-            #custom-weather.showyIcyDay,
-            #custom-weather.snowyIcyNight {
-            color: #d6e7e5;
-            }
+      #custom-weather.default {
+      color: #dbd9d8;
+      }
 
-            #custom-weather.default {
-            color: #dbd9d8;
-            }
+      /* If workspaces is the leftmost module, omit left margin */
+      .modules-left > widget:first-child > #workspaces {
+      margin-left: 0;
+      }
 
-            /* If workspaces is the leftmost module, omit left margin */
-            .modules-left > widget:first-child > #workspaces {
-            margin-left: 0;
-            }
+      /* If workspaces is the rightmost module, omit right margin */
+      .modules-right > widget:last-child > #workspaces {
+      margin-right: 0;
+      }
 
-            /* If workspaces is the rightmost module, omit right margin */
-            .modules-right > widget:last-child > #workspaces {
-            margin-right: 0;
-            }
+      #pulseaudio {
+      color: #7d9bba;
+      }
 
-            #pulseaudio {
-            color: #7d9bba;
-            }
+      #backlight {
+      /* color: #EBCB8B; */
+      color: #8fbcbb;
+      }
 
-            #backlight {
-            /* color: #EBCB8B; */
-            color: #8fbcbb;
-            }
+      #clock {
+      color: #c8d2e0;
+      background-color: rgba(0,0,0,0);
+      }
 
-            #clock {
-            color: #c8d2e0;
-            /* background-color: #14141e; */
-            }
+      #battery {
+      color: #c0caf5;
+      /* background-color: #90b1b1; */
+      }
 
-            #battery {
-            color: #c0caf5;
-            /* background-color: #90b1b1; */
-            }
+      #battery.charging,
+      #battery.full,
+      #battery.plugged {
+      color: #26a65b;
+      /* background-color: #26a65b; */
+      }
 
-            #battery.charging,
-            #battery.full,
-            #battery.plugged {
-            color: #26a65b;
-            /* background-color: #26a65b; */
-            }
+      @keyframes blink {
+      to {
+          background-color: rgba(30, 34, 42, 0.5);
+          color: #abb2bf;
+      }
+      }
 
-            @keyframes blink {
-            to {
-                background-color: rgba(30, 34, 42, 0.5);
-                color: #abb2bf;
-            }
-            }
+      #battery.critical:not(.charging) {
+      color: #f53c3c;
+      animation-name: blink;
+      animation-duration: 0.5s;
+      animation-timing-function: linear;
+      animation-iteration-count: infinite;
+      animation-direction: alternate;
+      }
 
-            #battery.critical:not(.charging) {
-            color: #f53c3c;
-            animation-name: blink;
-            animation-duration: 0.5s;
-            animation-timing-function: linear;
-            animation-iteration-count: infinite;
-            animation-direction: alternate;
-            }
+      label:focus {
+      background-color: #000000;
+      }
 
-            label:focus {
-            background-color: #000000;
-            }
+      #disk {
+      background-color: #964b00;
+      }
 
-            #disk {
-            background-color: #964b00;
-            }
+      #bluetooth {
+      color: #707d9d;
+      }
 
-            #bluetooth {
-            color: #707d9d;
-            }
+      #bluetooth.disconnected {
+      color: #f53c3c;
+      }
 
-            #bluetooth.disconnected {
-            color: #f53c3c;
-            }
+      #network {
+      color: #b48ead;
+      }
 
-            #network {
-            color: #b48ead;
-            }
+      #network.disconnected {
+      color: #f53c3c;
+      }
 
-            #network.disconnected {
-            color: #f53c3c;
-            }
+      #custom-media {
+      background-color: #66cc99;
+      color: #2a5c45;
+      min-width: 100px;
+      }
 
-            #custom-media {
-            background-color: #66cc99;
-            color: #2a5c45;
-            min-width: 100px;
-            }
+      #custom-media.custom-spotify {
+      background-color: #66cc99;
+      }
 
-            #custom-media.custom-spotify {
-            background-color: #66cc99;
-            }
+      #custom-media.custom-vlc {
+      background-color: #ffa000;
+      }
 
-            #custom-media.custom-vlc {
-            background-color: #ffa000;
-            }
+      #temperature {
+      background-color: #f0932b;
+      }
 
-            #temperature {
-            background-color: #f0932b;
-            }
+      #temperature.critical {
+      background-color: #eb4d4b;
+      }
 
-            #temperature.critical {
-            background-color: #eb4d4b;
-            }
+      #tray > .passive {
+      -gtk-icon-effect: dim;
+      }
 
-            #tray > .passive {
-            -gtk-icon-effect: dim;
-            }
+      #tray > .needs-attention {
+      -gtk-icon-effect: highlight;
+      background-color: #eb4d4b;
+      }
 
-            #tray > .needs-attention {
-            -gtk-icon-effect: highlight;
-            background-color: #eb4d4b;
-            }
+      #idle_inhibitor {
+      padding: 0 15 0 7px;
+      color: rgb(161, 139, 172);
+      border-radius: 9.5px;
+      background-color:rgb(30, 34, 37);
+      }
 
-            #idle_inhibitor {
-            padding: 0 15 0 7px;
-            color: rgb(161, 139, 172);
-            border-radius: 9.5px;
-            background-color:rgb(30, 34, 37);
-            }
+      #idle_inhibitor.activated {
+      background-color:rgb(161, 139, 172);
+      color: rgb(30, 34, 37);
+      }
 
-            #idle_inhibitor.activated {
-            background-color:rgb(161, 139, 172);
-            color: rgb(30, 34, 37);
-            }
+    ''
+    + lib.optionalString desktop ''
+      #custom-monitor-1,
+      #custom-monitor-2,
+      #custom-monitor-3 {
+      padding: 0 7 0 7px;
+      color: rgb(124, 153, 48);
+      border-radius: 9.5px;
+      background-color:rgb(30, 34, 37);
+      }
 
-            #mpd {
-            color: #2a5c45;
-            }
+      #custom-monitor-1.active,
+      #custom-monitor-2.active,
+      #custom-monitor-3.active {
+      background-color:rgb(124, 153, 48);
+      color: rgb(30, 34, 37);
+      }
+      #custom-monitor-2 {
+      color: rgb(111, 62, 224);
+      }
+      #custom-monitor-2.active{
+      background-color: rgb(111, 62, 224);
+      }
+      #custom-monitor-3 {
+      color: rgb(237, 109, 156);
+      margin: 0 10 0 0px
+      }
+      #custom-monitor-3.active{
+      background-color: rgb(237, 109, 156);
+      }
+    ''
+    + ''
 
-            #mpd.disconnected {
-            color: #f53c3c;
-            }
+      #custom-left-sep,
+      #custom-right-sep {
+      color: rgb(252,83,145);
+      background-color: rgba(0,0,0,0);
+      }
+      #mpd {
+      color: #2a5c45;
+      }
 
-            #mpd.stopped {
-            color: #90b1b1;
-            }
+      #mpd.disconnected {
+      color: #f53c3c;
+      }
 
-            #mpd.paused {
-            color: #51a37a;
-            }
+      #mpd.stopped {
+      color: #90b1b1;
+      }
 
-            #language {
-            background: #00b093;
-            color: #740864;
-            padding: 0 5px;
-            margin: 0 5px;
-            min-width: 16px;
-            }
+      #mpd.paused {
+      color: #51a37a;
+      }
 
-            #keyboard-state {
-            background: #97e1ad;
-            color: #000000;
-            padding: 0 0px;
-            margin: 0 5px;
-            min-width: 16px;
-            }
+      #language {
+      background: #00b093;
+      color: #740864;
+      padding: 0 5px;
+      margin: 0 5px;
+      min-width: 16px;
+      }
 
-            #keyboard-state > label {
-            padding: 0 5px;
-            }
+      #keyboard-state {
+      background: #97e1ad;
+      color: #000000;
+      padding: 0 0px;
+      margin: 0 5px;
+      min-width: 16px;
+      }
 
-            #custom-spotify {
-            padding: 0 10px;
-            margin: 0 4px;
-            /* background-color: #1db954; */
-            color: #abb2bf;
-            }
+      #keyboard-state > label {
+      padding: 0 5px;
+      }
 
-            #keyboard-state > label.locked {
-            background: rgba(0, 0, 0, 0.2);
-            }
-        '';
-        settings = [{
-            height = 30;
-            "layer" = "top";
-            "margin-top" = 6;
-            "margin-left" = 10;
-            "margin-bottom" = 0;
-            "margin-right" = 10;
-            "spacing" = 5;
-            modules-left = ["sway/workspaces"];
-             modules-center = ["clock"];
-            modules-right = ["idle_inhibitor" "backlight" "custom/wl-gammarelay-temperature" "pulseaudio"  "battery" "custom/power-menu"];
-            "sway/workspaces" = {
-            "format" = "{icon}";
-            "on-click" = "activate";
-            "format-icons" = {
-                "1" = "";
-                "2" = "";
-                "3" = "";
-                "4" = "";
-                "5" = "";
-                "urgent" = "";
-                "active" = "";
-                "default" = "";
-            };
-            };
-            "sway/window" = {
-                "format" = "{}";
-            };
-            "tray" = {
-                "spacing" = 10;
-            };
-            "clock" = {
-                "format-alt" = "{:%a %b %d}";
-                "format" = "{:%R}";
-                "tooltip" = false;
-            };
-            "backlight" = {
-                "device" = "DP-1";
-                "format" = "{icon} {percent}%";
-                "format-icons" = [""  ""  ""  ""  ""  ""  ""  ""  ""];
-                "on-click" = "";
-                "tooltip" = false;
-            };
-            "idle_inhibitor" = {
-                "format" = "{icon}";
-                "format-icons" = {
-                    "activated" = "";
-                    "deactivated" = "";
-                };
-                "tooltip" = false;
-            };
-            "network" = {
-                "format-wifi" = "直 {signalStrength}%";
-                "format-ethernet" = " wired";
-                "on-click" = "bash ~/.config/waybar/scripts/rofi-wifi-menu.sh";
-                "format-disconnected" = "Disconnected  ";
-            };
+      #custom-spotify {
+      padding: 0 10px;
+      margin: 0 4px;
+      /* background-color: #1db954; */
+      color: #abb2bf;
+      }
 
-            "pulseaudio" = {
-                "format" = "{icon}  {volume}%";
-                "format-bluetooth" = "  {volume}%";
-                "format-bluetooth-muted" = " ";
-                "format-muted" = "婢";
-                "format-icons" = {
-                    "headphone" = "";
-                    "hands-free" = "";
-                    "headset" = "";
-                    "phone" = "";
-                    "portable" = "";
-                    "car" = "";
-                    "default" = [""  ""  ""];
-                };
-                "on-click" = "pavucontrol";
-            };
+      #keyboard-state > label.locked {
+      background: rgba(0, 0, 0, 0.2);
+      }
+    '';
+    settings = [
+      {
+        height = 30;
+        "layer" = "top";
+        "margin-top" = 6;
+        "margin-left" = 10;
+        "margin-bottom" = 0;
+        "margin-right" = 10;
+        "spacing" = 5;
+        output = [
+          "eDP-1"
+          "DP-4"
+          "DP-6"
+        ];
+        modules-left = [
+          "sway/workspaces"
+        ];
+        modules-center = [
+          "custom/left-sep"
+          "clock"
+          "custom/right-sep"
+        ];
+        modules-right = [
+          "custom/monitor-1"
+          "custom/monitor-2"
+          "custom/monitor-3"
+          "idle_inhibitor"
+          "backlight"
+          "custom/wl-gammarelay-temperature"
+          "pulseaudio"
+          "battery"
+          "custom/power-menu"
+        ];
+        "sway/workspaces" = {
+          "format" = "{icon}";
+          "on-click" = "activate";
+          "format-icons" = {
+            "1" = "";
+            "2" = "";
+            "3" = "";
+            "4" = "";
+            "5" = "";
+            "urgent" = "";
+            "active" = "";
+            "default" = "";
+          };
+        };
+        "sway/window" = {
+          "format" = "{}";
+        };
+        "tray" = {
+          "spacing" = 10;
+        };
+        "clock" = {
+          "format-alt" = "{:%a %b %d}";
+          "format" = "{:%R}";
+          "tooltip" = false;
+        };
+        "backlight" = {
+          "device" = "DP-1";
+          "format" = "{icon} {percent}%";
+          "format-icons" = [
+            ""
+            ""
+            ""
+            ""
+            ""
+            ""
+            ""
+            ""
+            ""
+          ];
+          "on-click" = "";
+          "tooltip" = false;
+        };
+        "idle_inhibitor" = {
+          "format" = "{icon}";
+          "format-icons" = {
+            "activated" = "";
+            "deactivated" = "";
+          };
+          "tooltip" = false;
+        };
+        "network" = {
+          "format-wifi" = "直 {signalStrength}%";
+          "format-ethernet" = " wired";
+          "on-click" = "bash ~/.config/waybar/scripts/rofi-wifi-menu.sh";
+          "format-disconnected" = "Disconnected  ";
+        };
 
-            "bluetooth" = {
-                "on-click" = "~/.config/waybar/scripts/rofi-bluetooth &";
-                "format" = " {status}";
-            };
+        "pulseaudio" = {
+          "format" = "{icon}  {volume}%";
+          "format-bluetooth" = "  {volume}%";
+          "format-bluetooth-muted" = " ";
+          "format-muted" = "婢";
+          "format-icons" = {
+            "headphone" = "";
+            "hands-free" = "";
+            "headset" = "";
+            "phone" = "";
+            "portable" = "";
+            "car" = "";
+            "default" = [
+              ""
+              ""
+              ""
+            ];
+          };
+          "on-click" = "pavucontrol";
+        };
 
-            "battery" = {
-                "bat" = "BAT1";
-                "adapter" = "ADP0";
-                "interval" = 60;
-                "states" = {
-                    "warning" = 30;
-                    "critical" = 15;
-                };
-                "max-length" = 20;
-                "format" = "{icon} {capacity}%";
-                "format-warning" = "{icon} {capacity}%";
-                "format-critical" = "{icon} {capacity}%";
-                "format-charging" = "<span font-family='Font Awesome 6 Free'></span> {capacity}%";
-                "format-plugged" = "  {capacity}%";
-                "format-alt" = "{icon} {time}";
-                "format-full" = "  {capacity}%";
-                "format-icons" = [" "  " "  " "  " "  " "];
-                "tooltip" = false;
-            };
+        "bluetooth" = {
+          "on-click" = "~/.config/waybar/scripts/rofi-bluetooth &";
+          "format" = " {status}";
+        };
 
-            "custom/wl-gammarelay-temperature"= {
-                "format"= "{} ";
-                "exec"= "wl-gammarelay-rs watch {t}";
-                "on-scroll-up"= "busctl --user -- call rs.wl-gammarelay / rs.wl.gammarelay UpdateTemperature n +100";
-                "on-scroll-down"= "busctl --user -- call rs.wl-gammarelay / rs.wl.gammarelay UpdateTemperature n -100";
-                "tooltip" = false;
-            };
+        "battery" = {
+          "bat" = "BAT1";
+          "adapter" = "ADP0";
+          "interval" = 60;
+          "states" = {
+            "warning" = 30;
+            "critical" = 15;
+          };
+          "max-length" = 20;
+          "format" = "{icon} {capacity}%";
+          "format-warning" = "{icon} {capacity}%";
+          "format-critical" = "{icon} {capacity}%";
+          "format-charging" = "<span font-family='Font Awesome 6 Free'></span> {capacity}%";
+          "format-plugged" = "  {capacity}%";
+          "format-alt" = "{icon} {time}";
+          "format-full" = "  {capacity}%";
+          "format-icons" = [
+            " "
+            " "
+            " "
+            " "
+            " "
+          ];
+          "tooltip" = false;
+        };
 
-            "custom/power-menu" = {
-                "format" = " <span color='#bf6188'>⏻ </span>";
-                "on-click" = "${rofi/power.bash} ${rofi/powermenu.bash} ${rofi/powermenu.rasi}";
-                "tooltip" = false;
-            };
-            "custom/launcher" = {
-                "format" = " <span color='#6a92d7'> </span>";
-                "on-click" = "rofi -show drun";
-                "tooltip" = false;
-            };
-        }];
-    };
+        "custom/wl-gammarelay-temperature" = {
+          "format" = "{} ";
+          "exec" = "wl-gammarelay-rs watch {t}";
+          "on-scroll-up" =
+            "busctl --user -- call rs.wl-gammarelay / rs.wl.gammarelay UpdateTemperature n +100";
+          "on-scroll-down" =
+            "busctl --user -- call rs.wl-gammarelay / rs.wl.gammarelay UpdateTemperature n -100";
+          "tooltip" = false;
+        };
+
+        "custom/power-menu" = {
+          "format" = " <span color='#bf6188'>⏻ </span>";
+          "on-click" = "${rofi/power.bash} ${rofi/powermenu.bash} ${rofi/powermenu.rasi}";
+          "tooltip" = false;
+        };
+        "custom/monitor-1" = {
+          "exec" = "python ${scripts/monitor-watch.py} DP-4";
+          "on-click" = "python ${scripts/monitor-toggle.py} DP-4";
+          "interval" = 1;
+          "return-type" = "json";
+          "format" = "{icon}";
+          "format-icons" = {
+            "active" = "☘";
+            "deactive" = "☘";
+          };
+          "tooltip" = false;
+        };
+        "custom/monitor-2" = {
+          "exec" = "python ${scripts/monitor-watch.py} DP-6";
+          "on-click" = "python ${scripts/monitor-toggle.py} DP-6";
+          "interval" = 1;
+          "return-type" = "json";
+          "format" = "{icon}";
+          "format-icons" = {
+            "active" = "✽";
+            "deactive" = "✽";
+          };
+          "tooltip" = false;
+        };
+        "custom/monitor-3" = {
+          "exec" = "python ${scripts/monitor-watch.py} DP-5";
+          "on-click" = "python ${scripts/monitor-toggle.py} DP-5";
+          "interval" = 1;
+          "return-type" = "json";
+          "format" = "{icon}";
+          "format-icons" = {
+            "active" = "✿";
+            "deactive" = "✿";
+          };
+          "tooltip" = false;
+        };
+        "custom/launcher" = {
+          "format" = " <span color='#6a92d7'> </span>";
+          "on-click" = "rofi -show drun";
+          "tooltip" = false;
+        };
+        "custom/left-sep" = {
+          "format" = "☆°・*:.。.☆°・*:.。.☆°・*:.。.☆";
+          "tooltip" = false;
+        };
+        "custom/right-sep" = {
+          "format" = "☆.。.:*・°☆.。.:*・°☆.。.:*・°☆";
+          "tooltip" = false;
+        };
+      }
+    ];
+  };
 }

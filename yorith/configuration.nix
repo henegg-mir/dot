@@ -50,6 +50,7 @@ in
       enable = true;
       device = "nodev";
       efiSupport = true;
+      backgroundColor = "#000000";
       theme = "${../yorha-2560x1440}";
       useOSProber = true;
     };
@@ -81,6 +82,9 @@ in
   hardware.nvidia = {
     modesetting.enable = true;
     open = true;
+    powerManagement.enable = true;
+    nvidiaPersistenced = true;
+
     nvidiaSettings = true;
   };
 
@@ -260,12 +264,17 @@ in
 
   programs.dconf.enable = true;
   services.gnome.gnome-keyring.enable = true;
-  security.pam.services.sddm.enableGnomeKeyring = true;
-  security.pam.services.swaylock.text = ''
-    # PAM configuration file for the swaylock screen locker. By default, it includes
-    # the 'login' configuration file (see /etc/pam.d/login)
-    auth include login
-  '';
+  security.pam.services = {
+    sddm.enableGnomeKeyring = true;
+    swaylock.text = ''
+      # PAM configuration file for the swaylock screen locker. By default, it includes
+      # the 'login' configuration file (see /etc/pam.d/login)
+      auth include login
+    '';
+    greetd.enableGnomeKeyring = true;
+    greetd-password.enableGnomeKeyring = true;
+    login.enableGnomeKeyring = true;
+  };
   programs.gnupg.agent.enable = true;
 
   services.udev.extraRules = ''

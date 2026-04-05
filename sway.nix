@@ -158,11 +158,6 @@ in
                       blur enable
                   }
                   
-                  layer_effects "waybar" {
-                      blur enable
-                      blur_ignore_transparent enable
-                  }
-
                   layer_effects "wofi" {
                       blur enable
                       corner_radius 15
@@ -188,7 +183,7 @@ in
 
                   output $monitor_1 pos 0 0 res 1920x1080@59.939Hz power on bg ${./add_black_pink.png} fill scale_filter nearest
                   output $monitor_2 pos 1920 0 res 2560x1440@164.802Hz power on bg ${./add_black_pink.png} fill scale_filter nearest
-                  output $monitor_3 pos 4480 0 res 1920x1080@119.982Hz power on bg ${./add_black_pink.png} fill scale_filter nearest transform 270 
+                  output $monitor_3 pos 4480 0 res 1920x1080@119.982Hz power on bg ${./add_black_pink.png} fill scale_filter nearest transform 90 
                   output eDP-1 res 1920x1080@59.997Hz bg ${./add_black_pink.png} fill scale_filter nearest
 
     '';
