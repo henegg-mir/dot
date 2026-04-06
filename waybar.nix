@@ -316,8 +316,31 @@
 
       #custom-left-sep,
       #custom-right-sep {
-      color: rgb(252,83,145);
       background-color: rgba(0,0,0,0);
+      }
+      #custom-right-sep:hover {
+      animation-name: slide-right;
+      animation-duration: 2s;
+      }
+      @keyframes slide-right {
+
+        from {
+          margin-left: 0px;
+        }
+
+        50% {
+          margin-left: 110px;
+          opacity: 1;
+        }
+
+        50% {
+          opacity: 0.9;
+        }
+
+        to {
+          margin-left: 200px;
+        }
+
       }
       #mpd {
       color: #2a5c45;
@@ -388,29 +411,27 @@
           "clock"
           "custom/right-sep"
         ];
-        modules-right = [
-          "custom/monitor-1"
-          "custom/monitor-2"
-          "custom/monitor-3"
-          "idle_inhibitor"
-          "backlight"
-          "custom/wl-gammarelay-temperature"
-          "pulseaudio"
-          "battery"
-          "custom/power-menu"
-        ];
+        modules-right =
+          (lib.optionals desktop [
+            "custom/monitor-1"
+            "custom/monitor-2"
+            "custom/monitor-3"
+          ])
+          ++ [
+            "idle_inhibitor"
+            "backlight"
+            "custom/wl-gammarelay-temperature"
+            "pulseaudio"
+            "battery"
+            "custom/power-menu"
+          ];
         "sway/workspaces" = {
           "format" = "{icon}";
           "on-click" = "activate";
           "format-icons" = {
-            "1" = "";
-            "2" = "";
-            "3" = "";
-            "4" = "";
-            "5" = "";
-            "urgent" = "";
-            "active" = "";
-            "default" = "";
+            "urgent" = "!";
+            "focused" = "[ ]";
+            "default" = "+";
           };
         };
         "sway/window" = {
@@ -494,7 +515,7 @@
           "format" = "{icon} {capacity}%";
           "format-warning" = "{icon} {capacity}%";
           "format-critical" = "{icon} {capacity}%";
-          "format-charging" = "<span font-family='Font Awesome 6 Free'></span> {capacity}%";
+          "format-charging" = " {capacity}%";
           "format-plugged" = "  {capacity}%";
           "format-alt" = "{icon} {time}";
           "format-full" = "  {capacity}%";
@@ -559,17 +580,12 @@
           };
           "tooltip" = false;
         };
-        "custom/launcher" = {
-          "format" = " <span color='#6a92d7'> </span>";
-          "on-click" = "rofi -show drun";
-          "tooltip" = false;
-        };
         "custom/left-sep" = {
-          "format" = "☆°・*:.。.☆°・*:.。.☆°・*:.。.☆";
+          "exec" = "${./rainbow.sh} -r";
           "tooltip" = false;
         };
         "custom/right-sep" = {
-          "format" = "☆.。.:*・°☆.。.:*・°☆.。.:*・°☆";
+          "exec" = "${./rainbow.sh}";
           "tooltip" = false;
         };
       }
