@@ -1,9 +1,7 @@
-{
-  lib,
-  desktop,
-  ...
-}:
-
+{ pkgs, ... }:
+let
+  config = pkgs.writeText "config.json" (builtins.toJSON (import ./monitors.nix));
+in
 {
   programs.waybar = {
     enable = true;
@@ -32,7 +30,7 @@
 
       #workspaces button {
       padding: 0 5px;
-      color:rgb(64, 104, 67);
+      color:#ff99cc;
       background-color: transparent;
       /* Use box-shadow instead of border so the text isn't offset */
       box-shadow: inset 0 -3px transparent;
@@ -42,7 +40,7 @@
       }
 
       #workspaces button.focused {
-      color:#bf6188;
+      color:#d147a3;
       }
 
       #workspaces button.active {
@@ -281,8 +279,6 @@
       color: rgb(30, 34, 37);
       }
 
-    ''
-    + lib.optionalString desktop ''
       #custom-monitor-1,
       #custom-monitor-2,
       #custom-monitor-3 {
@@ -311,8 +307,6 @@
       #custom-monitor-3.active{
       background-color: rgb(237, 109, 156);
       }
-    ''
-    + ''
 
       #custom-left-sep,
       #custom-right-sep {
@@ -399,9 +393,11 @@
         "margin-right" = 10;
         "spacing" = 5;
         output = [
-          "eDP-1"
           "DP-4"
           "DP-6"
+        ];
+        "include" = [
+          config
         ];
         modules-left = [
           "sway/workspaces"
@@ -411,40 +407,76 @@
           "clock"
           "custom/right-sep"
         ];
-        modules-right =
-          (lib.optionals desktop [
-            "custom/monitor-1"
-            "custom/monitor-2"
-            "custom/monitor-3"
-          ])
-          ++ [
-            "idle_inhibitor"
-            "backlight"
-            "custom/wl-gammarelay-temperature"
-            "pulseaudio"
-            "battery"
-            "custom/power-menu"
-          ];
-        "sway/workspaces" = {
-          "format" = "{icon}";
-          "on-click" = "activate";
-          "format-icons" = {
-            "urgent" = "!";
-            "focused" = "[ ]";
-            "default" = "+";
-          };
-        };
-        "sway/window" = {
-          "format" = "{}";
-        };
-        "tray" = {
-          "spacing" = 10;
-        };
-        "clock" = {
-          "format-alt" = "{:%a %b %d}";
-          "format" = "{:%R}";
-          "tooltip" = false;
-        };
+        modules-right = [
+          "custom/monitor-1"
+          "custom/monitor-2"
+          "custom/monitor-3"
+          "idle_inhibitor"
+          "custom/wl-gammarelay-temperature"
+          "pulseaudio"
+          "custom/power-menu"
+        ];
+      }
+      {
+        height = 30;
+        "layer" = "top";
+        "margin-top" = 6;
+        "margin-left" = 10;
+        "margin-bottom" = 0;
+        "margin-right" = 10;
+        "spacing" = 5;
+        output = [
+          "DP-5"
+        ];
+        "include" = [
+          config
+        ];
+        modules-left = [
+          "sway/workspaces"
+        ];
+        modules-center = [
+          "clock"
+        ];
+        modules-right = [
+          "custom/monitor-1"
+          "custom/monitor-2"
+          "custom/monitor-3"
+          "idle_inhibitor"
+          "custom/wl-gammarelay-temperature"
+          "pulseaudio"
+          "custom/power-menu"
+        ];
+      }
+      {
+        height = 30;
+        "layer" = "top";
+        "margin-top" = 6;
+        "margin-left" = 10;
+        "margin-bottom" = 0;
+        "margin-right" = 10;
+        "spacing" = 5;
+        output = [
+          "eDP-1"
+        ];
+        "include" = [
+          config
+        ];
+        modules-left = [
+          "sway/workspaces"
+        ];
+        modules-center = [
+          "custom/left-sep"
+          "clock"
+          "custom/right-sep"
+        ];
+        modules-right = [
+          "idle_inhibitor"
+          "backlight"
+          "custom/wl-gammarelay-temperature"
+          "pulseaudio"
+          "battery"
+          "custom/power-menu"
+        ];
         "backlight" = {
           "device" = "DP-1";
           "format" = "{icon} {percent}%";
@@ -462,47 +494,6 @@
           "on-click" = "";
           "tooltip" = false;
         };
-        "idle_inhibitor" = {
-          "format" = "{icon}";
-          "format-icons" = {
-            "activated" = "";
-            "deactivated" = "";
-          };
-          "tooltip" = false;
-        };
-        "network" = {
-          "format-wifi" = "直 {signalStrength}%";
-          "format-ethernet" = " wired";
-          "on-click" = "bash ~/.config/waybar/scripts/rofi-wifi-menu.sh";
-          "format-disconnected" = "Disconnected  ";
-        };
-
-        "pulseaudio" = {
-          "format" = "{icon}  {volume}%";
-          "format-bluetooth" = "  {volume}%";
-          "format-bluetooth-muted" = " ";
-          "format-muted" = "婢";
-          "format-icons" = {
-            "headphone" = "";
-            "hands-free" = "";
-            "headset" = "";
-            "phone" = "";
-            "portable" = "";
-            "car" = "";
-            "default" = [
-              ""
-              ""
-              ""
-            ];
-          };
-          "on-click" = "pavucontrol";
-        };
-
-        "bluetooth" = {
-          "on-click" = "~/.config/waybar/scripts/rofi-bluetooth &";
-          "format" = " {status}";
-        };
-
         "battery" = {
           "bat" = "BAT1";
           "adapter" = "ADP0";
@@ -526,66 +517,6 @@
             " "
             " "
           ];
-          "tooltip" = false;
-        };
-
-        "custom/wl-gammarelay-temperature" = {
-          "format" = "{} ";
-          "exec" = "wl-gammarelay-rs watch {t}";
-          "on-scroll-up" =
-            "busctl --user -- call rs.wl-gammarelay / rs.wl.gammarelay UpdateTemperature n +100";
-          "on-scroll-down" =
-            "busctl --user -- call rs.wl-gammarelay / rs.wl.gammarelay UpdateTemperature n -100";
-          "tooltip" = false;
-        };
-
-        "custom/power-menu" = {
-          "format" = " <span color='#bf6188'>⏻ </span>";
-          "on-click" = "${rofi/power.bash} ${rofi/powermenu.bash} ${rofi/powermenu.rasi}";
-          "tooltip" = false;
-        };
-        "custom/monitor-1" = {
-          "exec" = "python ${scripts/monitor-watch.py} DP-4";
-          "on-click" = "python ${scripts/monitor-toggle.py} DP-4";
-          "interval" = 1;
-          "return-type" = "json";
-          "format" = "{icon}";
-          "format-icons" = {
-            "active" = "☘";
-            "deactive" = "☘";
-          };
-          "tooltip" = false;
-        };
-        "custom/monitor-2" = {
-          "exec" = "python ${scripts/monitor-watch.py} DP-6";
-          "on-click" = "python ${scripts/monitor-toggle.py} DP-6";
-          "interval" = 1;
-          "return-type" = "json";
-          "format" = "{icon}";
-          "format-icons" = {
-            "active" = "✽";
-            "deactive" = "✽";
-          };
-          "tooltip" = false;
-        };
-        "custom/monitor-3" = {
-          "exec" = "python ${scripts/monitor-watch.py} DP-5";
-          "on-click" = "python ${scripts/monitor-toggle.py} DP-5";
-          "interval" = 1;
-          "return-type" = "json";
-          "format" = "{icon}";
-          "format-icons" = {
-            "active" = "✿";
-            "deactive" = "✿";
-          };
-          "tooltip" = false;
-        };
-        "custom/left-sep" = {
-          "exec" = "${./rainbow.sh} -r";
-          "tooltip" = false;
-        };
-        "custom/right-sep" = {
-          "exec" = "${./rainbow.sh}";
           "tooltip" = false;
         };
       }

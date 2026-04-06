@@ -1,5 +1,4 @@
 {
-  config,
   lib,
   pkgs,
   inputs,
@@ -24,7 +23,7 @@ in
     ./nixcord.nix
     ./kitty.nix
     ./sway.nix
-    ./waybar.nix
+    ./waybar/default.nix
     ./spicetify.nix
     ./wofi.nix
     ./alacritty.nix
