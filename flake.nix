@@ -35,12 +35,16 @@
       url = "github:SteamClientHomebrew/Millennium?dir=packages/nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nixos-hardware = {
+      url = "github:NixOS/nixos-hardware/master";
+    };
   };
 
   outputs =
     {
       nixpkgs,
       nixpkgs-2505,
+      nixos-hardware,
       #lix-module,
       home-manager,
       ...
@@ -73,6 +77,10 @@
           inherit pkgs;
           modules = [
             ./azathoth/configuration.nix
+            nixos-hardware.nixosModules.common-cpu-intel
+            nixos-hardware.nixosModules.common-gpu-intel
+            nixos-hardware.nixosModules.common-pc-laptop
+            nixos-hardware.nixosModules.common-pc-laptop-ssd
             #lix-module.nixosModules.default
           ];
         };
