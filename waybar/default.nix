@@ -1,4 +1,9 @@
-{ pkgs, ... }:
+{
+  lib,
+  pkgs,
+  desktop,
+  ...
+}:
 let
   config = pkgs.writeText "config.json" (builtins.toJSON (import ./monitors.nix));
 in
@@ -11,8 +16,6 @@ in
       font-family: "JetBrainsMono Nerd Font";
       font-size: 17px;
       }
-      window.DP-4 * { font-size: 18px; }
-      window.DP-6 * { font-size: 22px; }
       window#waybar {
       background-color: rgba(83, 83, 90, 0.0);
       color: #ffffff;
@@ -393,8 +396,7 @@ in
         "margin-right" = 10;
         "spacing" = 5;
         output = [
-          "DP-4"
-          "DP-6"
+          "Huawei Technologies Co., Inc. XWU-CBA 0x00000001"
         ];
         "include" = [
           config
@@ -411,7 +413,11 @@ in
           "custom/monitor-1"
           "custom/monitor-2"
           "custom/monitor-3"
+        ]
+        ++ (lib.optionals (!desktop) [
           "idle_inhibitor"
+        ])
+        ++ [
           "custom/wl-gammarelay-temperature"
           "pulseaudio"
           "custom/power-menu"
@@ -426,7 +432,8 @@ in
         "margin-right" = 10;
         "spacing" = 5;
         output = [
-          "DP-5"
+          "AOC 24P1W1 HEBM4HA026735"
+          "LG Electronics LG ULTRAGEAR 0x000A4E82"
         ];
         "include" = [
           config
@@ -441,7 +448,11 @@ in
           "custom/monitor-1"
           "custom/monitor-2"
           "custom/monitor-3"
+        ]
+        ++ (lib.optionals (!desktop) [
           "idle_inhibitor"
+        ])
+        ++ [
           "custom/wl-gammarelay-temperature"
           "pulseaudio"
           "custom/power-menu"
@@ -453,7 +464,8 @@ in
         "margin-top" = 6;
         "margin-left" = 10;
         "margin-bottom" = 0;
-        "margin-right" = 10;
+        "margin-
+        right" = 10;
         "spacing" = 5;
         output = [
           "eDP-1"

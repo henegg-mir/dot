@@ -17,6 +17,7 @@ in
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
+    ../ani-workaround.nix
   ];
 
   nix = {
@@ -57,16 +58,27 @@ in
     efi.canTouchEfiVariables = true;
   };
   #nixos-hardware
-  boot.blacklistedKernelModules = [ "k10temp" ];
+  boot.blacklistedKernelModules = [
+    "amdgpu"
+    "nouveau"
+    "ee1004"
+  ];
   boot.extraModulePackages = with config.boot.kernelPackages; [
     v4l2loopback.out
-    zenpower
+    nct6687d
+    acpi_call
   ];
   boot.kernelModules = [
-    "zenpower"
     "v4l2loopback"
+    "kvm-amd"
+    "acpi_call"
+    "nct6687"
+    "iwlwifi"
   ];
-  hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
+  boot.kernelPackages = pkgs.linuxPackages_xanmod_latest;
+  boot.kernelParams = [
+    "nvidia.NVreg_UsePageAttributeTable=1"
+  ];
   services.xserver.videoDrivers = lib.mkDefault [ "nvidia" ];
 
   #nvidia
@@ -84,10 +96,18 @@ in
     open = true;
     powerManagement.enable = true;
     nvidiaPersistenced = true;
-
     nvidiaSettings = true;
   };
 
+  programs.singularity.enable = true;
+  programs.singularity.enableSuid = true;
+  boot.enableContainers = true;
+  virtualisation.containers.enable = true;
+  # Regular Docker
+  virtualisation.docker.daemon.settings.features.cdi = true;
+  # Rootless
+  virtualisation.docker.rootless.daemon.settings.features.cdi = true;
+  hardware.nvidia-container-toolkit.enable = true;
   networking = {
     hostName = "yorith"; # Define your hostname.
     interfaces = {
@@ -345,20 +365,21 @@ in
   };
 
   networking.nameservers = [
-    "1.1.1.1"
-    "1.0.0.1"
+    "45.90.28.0#Yorith-e2496e.dns.nextdns.io"
+    "2a07:a8c0::#Yorith-e2496e.dns.nextdns.io"
+    "45.90.30.0#Yorith-e2496e.dns.nextdns.io"
+    "2a07:a8c1::#Yorith-e2496e.dns.nextdns.io"
   ];
 
   services.resolved = {
     enable = true;
     settings.Resolve = {
-      dnssec = "true";
       domains = [ "~." ];
       fallbackDns = [
         "1.1.1.1"
         "1.0.0.1"
       ];
-      dnsovertls = "true";
+      DNSOverTLS = "true";
     };
   };
 

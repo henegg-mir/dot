@@ -2,6 +2,7 @@
   config,
   lib,
   pkgs,
+  desktop,
   ...
 }:
 let
@@ -46,10 +47,13 @@ in
       startup = [
         { command = "wl-gammarelay-rs"; }
         { command = "waybar"; }
+      ]
+      ++ (lib.optionals (!desktop) [
         {
           command = "swayidle -w timeout 300 '${./swaylock.bash} --grace 2 --fade-in 0.2' timeout 900 'systemctl suspend' before-sleep '${./swaylock.bash}'";
         }
-      ];
+      ]);
+
       gaps = {
         outer = 5;
         inner = 0;

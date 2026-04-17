@@ -10,12 +10,11 @@ val = 0
 arg = sys.argv[1]
 current_monitor = res[0]
 for monitor in res:
-    if monitor['name'] == str(arg):
+    if monitor['serial'] == str(arg):
         current_monitor = monitor
         break
 
-  
 if current_monitor['active'] == True:
-    os.system("swaymsg output " + str(sys.argv[1]) + " disable")
+    os.system("swaymsg output " + current_monitor['name'] + " disable")
 else:
-    os.system("swaymsg output " + str(sys.argv[1]) + " enable")
+    os.system("swaymsg output " + current_monitor['name'] + " enable")

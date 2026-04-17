@@ -100,9 +100,9 @@ in
           mendeley
           gif2apng
           clonehero
-          ani-cli
           xprop
           wmctrl
+          eduvpn-client
         ]
         ++ (lib.optionals desktop) [
           cemu

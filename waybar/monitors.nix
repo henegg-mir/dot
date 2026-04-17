@@ -64,8 +64,8 @@
     "tooltip" = false;
   };
   "custom/monitor-1" = {
-    "exec" = "python ${../scripts/monitor-watch.py} DP-4";
-    "on-click" = "python ${../scripts/monitor-toggle.py} DP-4";
+    "exec" = "python ${../scripts/monitor-watch.py} 0x000A4E82";
+    "on-click" = "sleep 0.1 && python ${../scripts/monitor-toggle.py} 0x000A4E82";
     "interval" = 1;
     "return-type" = "json";
     "format" = "{icon}";
@@ -76,8 +76,8 @@
     "tooltip" = false;
   };
   "custom/monitor-2" = {
-    "exec" = "python ${../scripts/monitor-watch.py} DP-6";
-    "on-click" = "python ${../scripts/monitor-toggle.py} DP-6";
+    "exec" = "python ${../scripts/monitor-watch.py} 0x00000001";
+    "on-click" = "sleep 0.1 && python ${../scripts/monitor-toggle.py} 0x00000001";
     "interval" = 1;
     "return-type" = "json";
     "format" = "{icon}";
@@ -88,8 +88,8 @@
     "tooltip" = false;
   };
   "custom/monitor-3" = {
-    "exec" = "python ${../scripts/monitor-watch.py} DP-5";
-    "on-click" = "python ${../scripts/monitor-toggle.py} DP-5";
+    "exec" = "python ${../scripts/monitor-watch.py} HEBM4HA026735";
+    "on-click" = "sleep 0.1 && python ${../scripts/monitor-toggle.py} HEBM4HA026735";
     "interval" = 1;
     "return-type" = "json";
     "format" = "{icon}";

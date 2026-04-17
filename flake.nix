@@ -94,6 +94,12 @@
         yorith = nixpkgs.lib.nixosSystem {
           inherit pkgs;
           modules = [
+            nixos-hardware.nixosModules.common-cpu-amd
+            nixos-hardware.nixosModules.common-cpu-amd-pstate
+            nixos-hardware.nixosModules.common-cpu-amd-zenpower
+            nixos-hardware.nixosModules.common-gpu-nvidia-nonprime
+            nixos-hardware.nixosModules.common-pc
+            nixos-hardware.nixosModules.common-pc-ssd
             ./yorith/configuration.nix
             #lix-module.nixosModules.default
           ];
