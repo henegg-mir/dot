@@ -315,30 +315,7 @@ in
       #custom-right-sep {
       background-color: rgba(0,0,0,0);
       }
-      #custom-right-sep:hover {
-      animation-name: slide-right;
-      animation-duration: 2s;
-      }
-      @keyframes slide-right {
 
-        from {
-          margin-left: 0px;
-        }
-
-        50% {
-          margin-left: 110px;
-          opacity: 1;
-        }
-
-        50% {
-          opacity: 0.9;
-        }
-
-        to {
-          margin-left: 200px;
-        }
-
-      }
       #mpd {
       color: #2a5c45;
       }

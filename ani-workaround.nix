@@ -7,12 +7,12 @@
 
 let
   ani-cli = pkgs.ani-cli.overrideAttrs (oldAttrs: rec {
-    version = "4.11";
+    version = "4.12";
     src = pkgs.fetchFromGitHub {
       owner = "pystardust";
       repo = "ani-cli";
       rev = "v${version}";
-      sha256 = "0kw2bd3w5yn4kgmfkgyssg80dgl8xg55lid7xgk90plps8d6n2l1";
+      sha256 = "sha256-ELGjAp4YGgPLN62g7Fgkb83CMotAGeRnRgIGU8rd73E";
     };
   });
 in
@@ -28,5 +28,6 @@ in
     ani-skip
     patch
     ani-cli
+    openssl
   ];
 }

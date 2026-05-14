@@ -46,19 +46,15 @@ in
         font-awesome
         powertop
         playerctl
-        ghc
-        cmake
-        gnumake
         nss
         ydotool
         jp2a
-        python314
         alsa-utils
         blesh
         any-nix-shell
         rsync
         rar
-        wine
+        winePackages.waylandFull
         lazygit
         tree-sitter
         ripgrep
@@ -102,10 +98,12 @@ in
           clonehero
           xprop
           wmctrl
-          eduvpn-client
+          osu-lazer-bin
         ]
         ++ (lib.optionals desktop) [
           cemu
+          krb5
+
         ]
       );
     shell = {

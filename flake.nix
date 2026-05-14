@@ -3,7 +3,7 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-    nixpkgs-2505.url = "github:nixos/nixpkgs/nixos-25.05";
+    nixpkgs-2511.url = "github:nixos/nixpkgs/nixos-25.11";
     lix = {
       url = "git+https://git.lix.systems/lix-project/lix";
       flake = false;
@@ -26,9 +26,9 @@
     };
 
     nixvim = {
-      url = "github:nix-community/nixvim";
+      url = "github:nix-community/nixvim/nixos-25.11";
       # If using a stable channel you can use `url = "github:nix-community/nixvim/nixos-<version>"`
-      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.nixpkgs.follows = "nixpkgs-2511";
     };
 
     millennium = {
@@ -43,7 +43,7 @@
   outputs =
     {
       nixpkgs,
-      nixpkgs-2505,
+      nixpkgs-2511,
       nixos-hardware,
       #lix-module,
       home-manager,
@@ -51,8 +51,8 @@
     }@inputs:
     let
       system = "x86_64-linux";
-      overlay-2505 = final: prev: {
-        stable = import nixpkgs-2505 {
+      overlay-2511 = final: prev: {
+        stable = import nixpkgs-2511 {
           inherit system;
         };
       };
@@ -61,11 +61,10 @@
         config = {
           allowUnfree = true;
           permittedInsecurePackages = [
-            "gradle-7.6.6"
           ];
         };
         overlays = [
-          overlay-2505
+          overlay-2511
           inputs.millennium.overlays.default
         ];
       };

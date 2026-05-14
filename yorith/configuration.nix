@@ -132,6 +132,7 @@ in
           to = 1764;
         }
       ];
+      allowedUDPPorts = [ 51820 ];
     };
   };
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
@@ -142,6 +143,7 @@ in
 
   # Enable networking
   networking.networkmanager.enable = true;
+  networking.networkmanager.plugins = with pkgs; [ networkmanager-openvpn ];
 
   # Set your time zone.
   time.timeZone = "Europe/Stockholm";
@@ -319,7 +321,7 @@ in
   };
 
   # List services that you want to enable:
-
+  programs.ssh.package = pkgs.openssh_gssapi;
   # Enable the OpenSSH daemon.
   services.openssh = {
     enable = true;

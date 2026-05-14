@@ -17,5 +17,3 @@ else
     (jp2a --color --width=100 --term-center $OUTPUT;)
     echo $OUTPUT
 fi
-
-

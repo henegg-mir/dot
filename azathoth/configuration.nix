@@ -140,6 +140,7 @@ in
       #  thunderbird
     ];
   };
+  environment.localBinInPath = true;
   environment.systemPackages = with pkgs; [ wakeonlan ];
   # Install firefox.
   # List packages installed in system profile. To search, run:

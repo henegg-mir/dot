@@ -70,6 +70,7 @@ in
         "${modifier}+q" = "kill";
         "${modifier}+m" = "exec ${pkgs.wofi}/bin/wofi --show run";
         "${modifier}+d" = "exec ${pkgs.wofi}/bin/wofi --show drun";
+        "${modifier}+alt+r" = "exec ${scripts/monitor-all-enable.bash}";
         "${modifier}+1" = "workspace number 1";
         "${modifier}+3" = "workspace number 3";
         "${modifier}+4" = "workspace number 4";

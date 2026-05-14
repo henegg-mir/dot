@@ -7,6 +7,7 @@
 }:
 {
   programs.nixvim.plugins = {
+    venv-selector.enable = true;
     inc-rename.enable = true;
     lsp-format = {
       enable = true;
@@ -30,8 +31,8 @@
                 command = [ "${lib.getExe pkgs.nixfmt-rfc-style}" ];
               };
               options = {
-                nixos.expr = ''${flake}.nixosConfigurations.grovetender.options'';
-                nixvim.expr = ''${flakeNixvim}.packages.${pkgs.system}.default.options'';
+                nixos.expr = "${flake}.nixosConfigurations.grovetender.options";
+                nixvim.expr = "${flakeNixvim}.packages.${pkgs.system}.default.options";
               };
             };
         };

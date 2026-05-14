@@ -64,8 +64,8 @@
     "tooltip" = false;
   };
   "custom/monitor-1" = {
-    "exec" = "python ${../scripts/monitor-watch.py} 0x000A4E82";
-    "on-click" = "sleep 0.1 && python ${../scripts/monitor-toggle.py} 0x000A4E82";
+    "exec" = "${../scripts/monitor-watch.bash} 0x000A4E82";
+    "on-click" = "sleep 0.1 && ${../scripts/monitor-toggle.bash} 0x000A4E82";
     "interval" = 1;
     "return-type" = "json";
     "format" = "{icon}";
@@ -76,8 +76,8 @@
     "tooltip" = false;
   };
   "custom/monitor-2" = {
-    "exec" = "python ${../scripts/monitor-watch.py} 0x00000001";
-    "on-click" = "sleep 0.1 && python ${../scripts/monitor-toggle.py} 0x00000001";
+    "exec" = "${../scripts/monitor-watch.bash} 0x00000001";
+    "on-click" = "sleep 0.1 && ${../scripts/monitor-toggle.bash} 0x00000001";
     "interval" = 1;
     "return-type" = "json";
     "format" = "{icon}";
@@ -88,8 +88,8 @@
     "tooltip" = false;
   };
   "custom/monitor-3" = {
-    "exec" = "python ${../scripts/monitor-watch.py} HEBM4HA026735";
-    "on-click" = "sleep 0.1 && python ${../scripts/monitor-toggle.py} HEBM4HA026735";
+    "exec" = "${../scripts/monitor-watch.bash} HEBM4HA026735";
+    "on-click" = "sleep 0.1 && ${../scripts/monitor-toggle.bash} HEBM4HA026735";
     "interval" = 1;
     "return-type" = "json";
     "format" = "{icon}";
