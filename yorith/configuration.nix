@@ -126,6 +126,7 @@ in
           to = 1764;
         }
       ];
+      allowedTCPPorts = [ 8384 ];
       allowedUDPPortRanges = [
         {
           from = 1714;
@@ -359,11 +360,44 @@ in
   #Steam
   programs.steam = {
     enable = true;
-    package = pkgs.millennium-steam;
+    package = pkgs.steam;
     remotePlay.openFirewall = true; # Open ports in the firewall for Steam Remote Play
     dedicatedServer.openFirewall = true; # Open ports in the firewall for Source Dedicated Server
     localNetworkGameTransfers.openFirewall = true; # Open ports in the firewall for Steam Local Network Game Transfers
     gamescopeSession.enable = true;
+  };
+
+  services.syncthing = {
+    enable = true;
+    openDefaultPorts = true;
+    user = "egg";
+    configDir = "/home/egg/.config/syncthing";
+    guiPasswordFile = "/etc/syncthing-gui-password";
+    key = "/home/egg/.certs/key.pem";
+    cert = "/home/egg/.certs/cert.pem";
+    guiAddress = "127.0.0.1:8384";
+    settings = {
+      gui.user = "egg";
+      devices = {
+        "zamacona" = {
+          id = "6RQMFKJ-OMFJUZY-UZRLKE7-QMFAWYF-4IEVIVF-2PJOJQH-23IHGNZ-BIDW2AF";
+        };
+      };
+      folders = {
+        "Dusk" = {
+          path = "/home/egg/.local/share/TwilitRealm/Dusklight/USA/Card\ A";
+          devices = [ "zamacona" ];
+        };
+        "Fnf" = {
+          path = "/home/egg/.local/share/FunkinCrew";
+          devices = [ "zamacona" ];
+        };
+        "Fnf-mods" = {
+          path = "/home/egg/Games/fnf/mods";
+          devices = [ "zamacona" ];
+        };
+      };
+    };
   };
 
   networking.nameservers = [

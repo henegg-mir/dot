@@ -82,7 +82,6 @@ in
           wl-gammarelay-rs
           dmenu
           blueman
-          polonium
           pavucontrol
           unofficial-homestuck-collection
           blender
@@ -99,9 +98,13 @@ in
           xprop
           wmctrl
           osu-lazer-bin
+          (callPackage ./funkin.nix { })
         ]
         ++ (lib.optionals desktop) [
           cemu
+          dolphin-emu
+          lutris-unwrapped
+          heroic-unwrapped
           krb5
 
         ]
