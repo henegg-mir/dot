@@ -1,5 +1,7 @@
-#!/usr/bin/env bash
-MONITOR=$1
+{writeShellScript, monitor}:
+
+writeShellScript "hello" ''
+MONITOR=${monitor}
 LEN=$(swaymsg -t get_outputs | jq -r .'|length')
 
 for ((i = 0; i < LEN; i++)); do
@@ -17,3 +19,5 @@ echo '{"alt" : "active", "class" : "active"}'
 else
 echo '{"alt" : "deactive", "class" : "deactive"}'
 fi
+
+''

@@ -92,7 +92,6 @@ in
           pulsemeeter
           spotify-player
           prismlauncher
-          mendeley
           gif2apng
           clonehero
           xprop

@@ -52,7 +52,7 @@ in
       device = "nodev";
       efiSupport = true;
       backgroundColor = "#000000";
-      theme = "${../yorha-2560x1440}";
+      theme = "${./yorha-2560x1440}";
       useOSProber = true;
     };
     efi.canTouchEfiVariables = true;

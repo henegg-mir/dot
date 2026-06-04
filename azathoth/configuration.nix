@@ -24,8 +24,8 @@ in
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  boot.initrd.luks.devices."luks-bc93d2e6-0da0-4c32-abf0-d8001d4f1130".device =
-    "/dev/disk/by-uuid/bc93d2e6-0da0-4c32-abf0-d8001d4f1130";
+  boot.initrd.luks.devices."luks-b3bc053a-7b49-4c92-b1f1-1c330dca9b92".device =
+    "/dev/disk/by-uuid/b3bc053a-7b49-4c92-b1f1-1c330dca9b92";
   networking.hostName = "azathoth"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
@@ -90,6 +90,8 @@ in
   #   package = pkgs.kdePackages.sddm;
   # };
   programs.sway.enable = true;
+  services.displayManager.gdm.enable = true;
+  services.desktopManager.gnome.enable = true;
 
   # Configure keymap in X11
   services.xserver.xkb = {
@@ -271,6 +273,35 @@ in
 
   # List services that you want to enable:
 
+  services.syncthing = {
+    enable = true;
+    openDefaultPorts = true;
+    user = "egg";
+    configDir = "/home/egg/.config/syncthing";
+    guiPasswordFile = "/etc/syncthing-gui-password";
+    key = "/home/egg/.certs/key.pem";
+    cert = "/home/egg/.certs/cert.pem";
+    guiAddress = "127.0.0.1:8384";
+    settings = {
+      gui.user = "egg";
+      devices = {
+        "zamacona" = {
+          id = "6RQMFKJ-OMFJUZY-UZRLKE7-QMFAWYF-4IEVIVF-2PJOJQH-23IHGNZ-BIDW2AF";
+        };
+      };
+      folders = {
+        "Fnf" = {
+          path = "/home/egg/.local/share/FunkinCrew";
+          devices = [ "zamacona" ];
+        };
+        "Fnf-mods" = {
+          path = "/home/egg/Games/fnf/mods";
+          devices = [ "zamacona" ];
+        };
+      };
+    };
+  };
+
   # Enable the OpenSSH daemon.
   services.openssh = {
     enable = true;
@@ -302,7 +333,7 @@ in
   #Steam
   programs.steam = {
     enable = true;
-    package = pkgs.millennium-steam;
+    package = pkgs.steam;
     remotePlay.openFirewall = true; # Open ports in the firewall for Steam Remote Play
     dedicatedServer.openFirewall = true; # Open ports in the firewall for Source Dedicated Server
     localNetworkGameTransfers.openFirewall = true; # Open ports in the firewall for Steam Local Network Game Transfers
@@ -320,20 +351,21 @@ in
   };
 
   networking.nameservers = [
-    "1.1.1.1"
-    "1.0.0.1"
+    "45.90.28.0#Azathoth-e2496e.dns.nextdns.io"
+    "2a07:a8c0::#Azathoth-e2496e.dns.nextdns.io"
+    "45.90.30.0#Azathoth-e2496e.dns.nextdns.io"
+    "2a07:a8c1::#Azathoth-e2496e.dns.nextdns.io"
   ];
 
   services.resolved = {
     enable = true;
     settings.Resolve = {
-      dnssec = "true";
       domains = [ "~." ];
       fallbackDns = [
         "1.1.1.1"
         "1.0.0.1"
       ];
-      dnsovertls = "true";
+      DNSOverTLS = "true";
     };
   };
 

@@ -103,7 +103,6 @@
             #lix-module.nixosModules.default
           ];
         };
-
       };
 
       homeConfigurations = {
@@ -113,6 +112,7 @@
             inherit inputs;
             server = false;
             desktop = false;
+            laptop = true;
           };
           modules = [
             ./home.nix
@@ -125,6 +125,7 @@
             inherit inputs;
             server = true;
             desktop = false;
+            laptop = false;
           };
           modules = [
             ./home.nix
@@ -137,6 +138,7 @@
             inherit inputs;
             server = false;
             desktop = true;
+            laptop = false;
           };
           modules = [
             ./home.nix

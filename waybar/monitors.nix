@@ -63,48 +63,4 @@
     "on-click" = "${../rofi/power.bash} ${../rofi/powermenu.bash} ${../rofi/powermenu.rasi}";
     "tooltip" = false;
   };
-  "custom/monitor-1" = {
-    "exec" = "${../scripts/monitor-watch.bash} 0x000A4E82";
-    "on-click" = "sleep 0.1 && ${../scripts/monitor-toggle.bash} 0x000A4E82";
-    "interval" = 1;
-    "return-type" = "json";
-    "format" = "{icon}";
-    "format-icons" = {
-      "active" = "☘";
-      "deactive" = "☘";
-    };
-    "tooltip" = false;
-  };
-  "custom/monitor-2" = {
-    "exec" = "${../scripts/monitor-watch.bash} 0x00000001";
-    "on-click" = "sleep 0.1 && ${../scripts/monitor-toggle.bash} 0x00000001";
-    "interval" = 1;
-    "return-type" = "json";
-    "format" = "{icon}";
-    "format-icons" = {
-      "active" = "✽";
-      "deactive" = "✽";
-    };
-    "tooltip" = false;
-  };
-  "custom/monitor-3" = {
-    "exec" = "${../scripts/monitor-watch.bash} HEBM4HA026735";
-    "on-click" = "sleep 0.1 && ${../scripts/monitor-toggle.bash} HEBM4HA026735";
-    "interval" = 1;
-    "return-type" = "json";
-    "format" = "{icon}";
-    "format-icons" = {
-      "active" = "✿";
-      "deactive" = "✿";
-    };
-    "tooltip" = false;
-  };
-  "custom/left-sep" = {
-    "exec" = "${../scripts/rainbow.sh} -r";
-    "tooltip" = false;
-  };
-  "custom/right-sep" = {
-    "exec" = "${../scripts/rainbow.sh}";
-    "tooltip" = false;
-  };
 }

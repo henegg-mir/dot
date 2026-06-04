@@ -3,10 +3,38 @@
   lib,
   pkgs,
   desktop,
+  laptop,
   ...
 }:
 let
   modifier = config.wayland.windowManager.sway.config.modifier;
+  all-enable = pkgs.writeShellScript "all-enable" ''
+    LEN=$(swaymsg -t get_outputs | jq -r .'|length')
+
+    for ((i = 0; i < LEN; i++)); do
+    NAME=$(swaymsg -t get_outputs | jq -r .'['$i'].name')
+    (swaymsg output "$NAME" enable)
+    done
+  '';
+  clamshell = pkgs.writeShellScript "clamshell" ''
+    LAPTOP_OUTPUT="eDP-1"
+    LID_STATE_FILE="/proc/acpi/button/lid/LID0/state"
+
+    read -r LS < "$LID_STATE_FILE"
+
+    case "$LS" in
+    *open)   swaymsg output "$LAPTOP_OUTPUT" enable ;;
+    *closed) swaymsg output "$LAPTOP_OUTPUT" disable ;;
+    *)       echo "Could not get lid state" >&2 ; exit 1 ;;
+    esac
+  '';
+  lock-screen = pkgs.writeShellScript "lock-screen" ''
+    ${pkgs.swaylock-effects}/bin/swaylock --screenshots --clock \
+                            --indicator --indicator-radius 100 --indicator-thickness 7 \
+                            --effect-blur 7x5 --effect-vignette 0.5:0.5 --ring-color bb00cc \
+                            --key-hl-color 880033 --line-color 00000000 --inside-color 00000088 \
+                            --separator-color 00000000 -f $1 $2
+  '';
 in
 {
   programs = {
@@ -50,7 +78,7 @@ in
       ]
       ++ (lib.optionals (!desktop) [
         {
-          command = "swayidle -w timeout 300 '${./swaylock.bash} --grace 2 --fade-in 0.2' timeout 900 'systemctl suspend' before-sleep '${./swaylock.bash}'";
+          command = "swayidle -w timeout 300 '${lock-screen} --grace 2 --fade-in 0.2' timeout 900 'systemctl suspend' before-sleep '${lock-screen}'";
         }
       ]);
 
@@ -59,7 +87,7 @@ in
         inner = 0;
       };
       keybindings = {
-        "${modifier}+l" = "exec ${./swaylock.bash}";
+        "${modifier}+l" = "exec ${lock-screen}";
         "${modifier}+Return" = ''
           exec ${pkgs.alacritty}/bin/alacritty --command sh -c "tmux attach || tmux"
         '';
@@ -70,7 +98,7 @@ in
         "${modifier}+q" = "kill";
         "${modifier}+m" = "exec ${pkgs.wofi}/bin/wofi --show run";
         "${modifier}+d" = "exec ${pkgs.wofi}/bin/wofi --show drun";
-        "${modifier}+alt+r" = "exec ${scripts/monitor-all-enable.bash}";
+        "${modifier}+alt+r" = "exec ${all-enable}";
         "${modifier}+1" = "workspace number 1";
         "${modifier}+3" = "workspace number 3";
         "${modifier}+4" = "workspace number 4";
@@ -173,23 +201,25 @@ in
                   set $monitor_3 "AOC 24P1W1 HEBM4HA026735"
                   bindswitch --reload --locked lid:on output $laptop disable
                   bindswitch --reload --locked lid:off output $laptop enable
-                  exec_always ${./clamshell.sh}
+    ''
+    + lib.optionalString laptop " 
+                  exec_always ${clamshell}"
+    + ''
+      workspace 1 output $monitor_1
+      workspace 2 output $monitor_1
+      workspace 3 output $monitor_1
+      workspace 4 output $monitor_1
+      workspace 5 output $monitor_2 HDMI-A-1
+      workspace 6 output $monitor_2
+      workspace 7 output $monitor_3
+      workspace 8 output $monitor_3
+      workspace 9 output $monitor_3
+      workspace 10 output $monitor_3
 
-                  workspace 1 output $monitor_1
-                  workspace 2 output $monitor_1
-                  workspace 3 output $monitor_1
-                  workspace 4 output $monitor_1
-                  workspace 5 output $monitor_2 HDMI-A-1
-                  workspace 6 output $monitor_2
-                  workspace 7 output $monitor_3
-                  workspace 8 output $monitor_3
-                  workspace 9 output $monitor_3
-                  workspace 10 output $monitor_3
-
-                  output $monitor_1 pos 0 0 res 1920x1080@59.939Hz power on bg ${./add_black_pink.png} fill scale_filter nearest
-                  output $monitor_2 pos 1920 0 res 2560x1440@164.802Hz power on bg ${./add_black_pink.png} fill scale_filter nearest
-                  output $monitor_3 pos 4480 0 res 1920x1080@119.982Hz power on bg ${./add_black_pink.png} fill scale_filter nearest transform 90 
-                  output eDP-1 res 1920x1080@59.997Hz bg ${./add_black_pink.png} fill scale_filter nearest
+      output $monitor_1 pos 0 0 res 1920x1080@59.939Hz power on bg ${./add_black_pink.png} fill scale_filter nearest
+      output $monitor_2 pos 1920 0 res 2560x1440@164.802Hz power on bg ${./add_black_pink.png} fill scale_filter nearest
+      output $monitor_3 pos 4480 0 res 1920x1080@119.982Hz power on bg ${./add_black_pink.png} fill scale_filter nearest transform 90 
+      output eDP-1 res 1920x1080@59.997Hz bg ${./add_black_pink.png} fill scale_filter nearest
 
     '';
 

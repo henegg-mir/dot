@@ -399,6 +399,52 @@ in
           "pulseaudio"
           "custom/power-menu"
         ];
+        "custom/monitor-1" = {
+          "exec" = "${pkgs.callPackage ./monitor-watch.nix { monitor = "0x000A4E82"; }}";
+          "on-click" = "sleep 0.1 && ${pkgs.callPackage ./monitor-toggle.nix { monitor = "0x000A4E82"; }}";
+          "interval" = 1;
+          "return-type" = "json";
+          "format" = "{icon}";
+          "format-icons" = {
+            "active" = "☘";
+            "deactive" = "☘";
+          };
+          "tooltip" = false;
+        };
+        "custom/monitor-2" = {
+          "exec" = "${pkgs.callPackage ./monitor-watch.nix { monitor = "0x00000001"; }}";
+          "on-click" = "sleep 0.1 && ${pkgs.callPackage ./monitor-toggle.nix { monitor = "0x00000001"; }}";
+
+          "interval" = 1;
+          "return-type" = "json";
+          "format" = "{icon}";
+          "format-icons" = {
+            "active" = "✽";
+            "deactive" = "✽";
+          };
+          "tooltip" = false;
+        };
+        "custom/monitor-3" = {
+          "exec" = "${pkgs.callPackage ./monitor-watch.nix { monitor = "HEBM4HA026735"; }}";
+          "on-click" = "sleep 0.1 && ${pkgs.callPackage ./monitor-toggle.nix { monitor = "HEBM4HA026735"; }}";
+
+          "interval" = 1;
+          "return-type" = "json";
+          "format" = "{icon}";
+          "format-icons" = {
+            "active" = "✿";
+            "deactive" = "✿";
+          };
+          "tooltip" = false;
+        };
+        "custom/left-sep" = {
+          "exec" = "${pkgs.callPackage ./rainbow.nix { dir = "-r"; }}";
+          "tooltip" = false;
+        };
+        "custom/right-sep" = {
+          "exec" = "${pkgs.callPackage ./rainbow.nix { }}";
+          "tooltip" = false;
+        };
       }
       {
         height = 30;
@@ -434,6 +480,44 @@ in
           "pulseaudio"
           "custom/power-menu"
         ];
+        "custom/monitor-1" = {
+          "exec" = "${pkgs.callPackage ./monitor-watch.nix { monitor = "0x000A4E82"; }}";
+          "on-click" = "sleep 0.1 && ${pkgs.callPackage ./monitor-toggle.nix { monitor = "0x000A4E82"; }}";
+          "interval" = 1;
+          "return-type" = "json";
+          "format" = "{icon}";
+          "format-icons" = {
+            "active" = "☘";
+            "deactive" = "☘";
+          };
+          "tooltip" = false;
+        };
+        "custom/monitor-2" = {
+          "exec" = "${pkgs.callPackage ./monitor-watch.nix { monitor = "0x00000001"; }}";
+          "on-click" = "sleep 0.1 && ${pkgs.callPackage ./monitor-toggle.nix { monitor = "0x00000001"; }}";
+
+          "interval" = 1;
+          "return-type" = "json";
+          "format" = "{icon}";
+          "format-icons" = {
+            "active" = "✽";
+            "deactive" = "✽";
+          };
+          "tooltip" = false;
+        };
+        "custom/monitor-3" = {
+          "exec" = "${pkgs.callPackage ./monitor-watch.nix { monitor = "HEBM4HA026735"; }}";
+          "on-click" = "sleep 0.1 && ${pkgs.callPackage ./monitor-toggle.nix { monitor = "HEBM4HA026735"; }}";
+
+          "interval" = 1;
+          "return-type" = "json";
+          "format" = "{icon}";
+          "format-icons" = {
+            "active" = "✿";
+            "deactive" = "✿";
+          };
+          "tooltip" = false;
+        };
       }
       {
         height = 30;
@@ -506,6 +590,14 @@ in
             " "
             " "
           ];
+          "tooltip" = false;
+        };
+        "custom/left-sep" = {
+          "exec" = "${pkgs.callPackage ./rainbow.nix { dir = "-r"; }}";
+          "tooltip" = false;
+        };
+        "custom/right-sep" = {
+          "exec" = "${pkgs.callPackage ./rainbow.nix { }}";
           "tooltip" = false;
         };
       }
