@@ -14,7 +14,16 @@
   unzip,
   autoPatchelfHook,
 }:
-
+let
+  spooky = fetchurl {
+    url = "https://gamebanana.com/dl/1673052";
+    hash = "sha256-aoK7forucSwsbu6DwQfy1Zu00w6CUm2G2I2RdFA4zH4=";
+  };
+  qt-rewired = fetchurl {
+    url = "https://gamebanana.com/dl/1665441";
+    hash = "sha256-AiDgGXgWgPF5wuKj1VY+0+79ng3UPWvlZpr8tP4Owp0=";
+  };
+in
 stdenv.mkDerivation {
   name = "Funkin";
   version = "0.8.4";
@@ -47,11 +56,13 @@ stdenv.mkDerivation {
   ];
   unpackPhase = ''
     unzip -d $out $src
+    mkdir -p $out/mods
+    unzip -d $out/mods/ ${spooky}
+    unzip -d $out/mods/qt-rewired ${qt-rewired}
   '';
 
   installPhase = ''
     mkdir -p $out/bin
-    mkdir -p $out/mods
     echo "#!/usr/bin/env bash
     cd $out && ./Funkin" > $out/bin/funkin
     chmod +x $out/bin/funkin

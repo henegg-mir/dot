@@ -1,4 +1,4 @@
-{ config, lib, pkgs, inputs, ... }:
+{ pkgs, inputs, ... }:
 let
   spicePkgs = inputs.spicetify.legacyPackages.${pkgs.system};
 in
@@ -9,5 +9,8 @@ in
     enable = true;
     theme = spicePkgs.themes.text;
     colorScheme = "Spotify";
+    enabledExtensions = with spicePkgs.extensions; [
+      adblock
+    ];
   };
 }

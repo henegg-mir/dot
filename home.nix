@@ -10,7 +10,6 @@ let
   username = "egg";
   homeDir = "/home/${username}";
   scripts = scripts/.;
-
 in
 {
 
@@ -97,7 +96,7 @@ in
           xprop
           wmctrl
           osu-lazer-bin
-          (callPackage ./funkin.nix { })
+          (callPackage ./games/funkin.nix { })
         ]
         ++ (lib.optionals desktop) [
           cemu
@@ -105,6 +104,7 @@ in
           lutris-unwrapped
           heroic-unwrapped
           krb5
+          (callPackage ./games/dusk.nix { })
 
         ]
       );

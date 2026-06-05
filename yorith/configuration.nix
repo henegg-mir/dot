@@ -241,32 +241,34 @@ in
   security.polkit.enable = true;
   security.rtkit.enable = true;
   systemd = {
-    user.services.polkit-gnome-authentication-agent-1 = {
-      description = "polkit-gnome-authentication-agent-1";
-      wantedBy = [ "graphical-session.target" ];
-      wants = [ "graphical-session.target" ];
-      after = [ "graphical-session.target" ];
-      serviceConfig = {
-        Type = "simple";
-        ExecStart = "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1";
-        Restart = "on-failure";
-        RestartSec = 1;
-        TimeoutStopSec = 10;
+    user = {
+      services.polkit-gnome-authentication-agent-1 = {
+        description = "polkit-gnome-authentication-agent-1";
+        wantedBy = [ "graphical-session.target" ];
+        wants = [ "graphical-session.target" ];
+        after = [ "graphical-session.target" ];
+        serviceConfig = {
+          Type = "simple";
+          ExecStart = "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1";
+          Restart = "on-failure";
+          RestartSec = 1;
+          TimeoutStopSec = 10;
+        };
       };
-    };
-    user.services.ydotoold = {
+      services.ydotoold = {
 
-      description = "An auto-input utility for wayland";
-      documentation = [
-        "man:ydotool(1)"
-        "man:ydotoold(8)"
-      ];
+        description = "An auto-input utility for wayland";
+        documentation = [
+          "man:ydotool(1)"
+          "man:ydotoold(8)"
+        ];
 
-      serviceConfig = {
-        ExecStart = "/run/current-system/sw/bin/ydotoold --socket-path /tmp/ydotools";
+        serviceConfig = {
+          ExecStart = "/run/current-system/sw/bin/ydotoold --socket-path /tmp/ydotools";
+        };
+
+        wantedBy = [ "default.target" ];
       };
-
-      wantedBy = [ "default.target" ];
     };
     services = {
       NetworkManager-wait-online.enable = lib.mkForce false;
