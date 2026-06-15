@@ -12,6 +12,7 @@
   pulseaudio,
   alsa-lib,
   unzip,
+  unrar,
   autoPatchelfHook,
 }:
 let
@@ -22,6 +23,26 @@ let
   qt-rewired = fetchurl {
     url = "https://gamebanana.com/dl/1665441";
     hash = "sha256-AiDgGXgWgPF5wuKj1VY+0+79ng3UPWvlZpr8tP4Owp0=";
+  };
+  shootin = fetchurl {
+    url = "https://gamebanana.com/dl/1689702";
+    hash = "sha256-LB7E4ZYiY0PxPLknikaQZECUeXryEy6VAw5T9KnRy3w=";
+  };
+  nene = fetchurl {
+    url = "https://gamebanana.com/dl/1659725";
+    hash = "sha256-tIU981sb1qrW/Mtrej5AUBFqA6gSmzOIptXJEYdhaqA=";
+  };
+  hazy = fetchurl {
+    url = "https://gamebanana.com/dl/1699716";
+    hash = "sha256-mdsO838Bc+I1Nc0YqHDMx1J40elQ9dtKz/ouzhVsq+0=";
+  };
+  tricky = fetchurl {
+    url = "https://gamebanana.com/dl/1706935";
+    hash = "sha256-94j8PSSDVHpSxQXEooQE2HOZ3YkI5vp3sbmAiRFAcn4=";
+  };
+  miku = fetchurl {
+    url = "https://gamebanana.com/dl/1717118";
+    hash = "sha256-HwzRvGiP+PXxyIdrt0nLDhMsBaILQ7nsKgIFfKZ3miw=";
   };
 in
 stdenv.mkDerivation {
@@ -36,6 +57,7 @@ stdenv.mkDerivation {
   nativeBuildInputs = [
     autoPatchelfHook
     unzip
+    unrar
   ];
   buildInputs = [
     libglvnd
@@ -56,9 +78,14 @@ stdenv.mkDerivation {
   ];
   unpackPhase = ''
     unzip -d $out $src
-    mkdir -p $out/mods
+    mkdir -p $out/mods/nene
+    unrar x -xshits/ -y ${nene} $out/mods/nene
     unzip -d $out/mods/ ${spooky}
     unzip -d $out/mods/qt-rewired ${qt-rewired}
+    unzip -d $out/mods/hazy ${hazy}
+    unzip -d $out/mods/ ${tricky}
+    unzip -d $out/mods/miku ${miku}
+    unrar x ${shootin} $out/mods
   '';
 
   installPhase = ''
