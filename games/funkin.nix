@@ -44,6 +44,10 @@ let
     url = "https://gamebanana.com/dl/1717118";
     hash = "sha256-HwzRvGiP+PXxyIdrt0nLDhMsBaILQ7nsKgIFfKZ3miw=";
   };
+  philly = fetchurl {
+    url = "https://gamebanana.com/dl/1714715";
+    hash = "sha256-3OeFXj9Yf9aIlZUhN0kE7ZBqEfLA2lEGDNLtXDm38fc=";
+  };
 in
 stdenv.mkDerivation {
   name = "Funkin";
@@ -85,6 +89,7 @@ stdenv.mkDerivation {
     unzip -d $out/mods/hazy ${hazy}
     unzip -d $out/mods/ ${tricky}
     unzip -d $out/mods/miku ${miku}
+    unzip -d $out/mods/ ${philly}
     unrar x ${shootin} $out/mods
   '';
 
