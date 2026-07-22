@@ -104,6 +104,8 @@ in
           lutris-unwrapped
           heroic-unwrapped
           krb5
+          protonup-qt
+          lsfg-vk
           (callPackage ./games/dusk.nix { })
 
         ]
