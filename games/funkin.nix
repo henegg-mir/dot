@@ -16,13 +16,17 @@
   autoPatchelfHook,
 }:
 let
+  extra-events = fetchurl {
+    url = "https://gamebanana.com/dl/1675049";
+    hash = "sha256-Tza/YkeyjafVqqCHgHIU6JZpcYq+yRoYYbpn/rLdFtg=";
+  };
   spooky = fetchurl {
     url = "https://gamebanana.com/dl/1673052";
     hash = "sha256-aoK7forucSwsbu6DwQfy1Zu00w6CUm2G2I2RdFA4zH4=";
   };
   qt-rewired = fetchurl {
-    url = "https://gamebanana.com/dl/1757417";
-    hash = "sha256-lwiWZqjU0mZ9ZPMCCr0Ofx15PGH7DcwAj13t8c1Ild8=";
+    url = "https://gamebanana.com/dl/1762028";
+    hash = "sha256-ciBrcbe/U8Y1ryLDJsfLd1DCX0ZmLbjPMfVYvSDzSlc=";
   };
   shootin = fetchurl {
     url = "https://gamebanana.com/dl/1689702";
@@ -56,10 +60,6 @@ let
     url = "https://gamebanana.com/dl/1665743";
     hash = "sha256-eUMbC+x+12ArgIu3mSJ+sixCbNKWBSArqc2GQKafUE0=";
   };
-  fnf-extreme = fetchurl {
-    url = "https://gamebanana.com/dl/1759231";
-    hash = "sha256-s+drggU6Dk0dRxv9VdVNltHIeO2SAYfP8QAphBWyUp0=";
-  };
   random_1 = fetchurl {
     url = "https://gamebanana.com/dl/1681329";
     hash = "sha256-tBA+g5omHTulc8Pt6H345stZr6+krFHG0xKX0B+qud4=";
@@ -75,6 +75,14 @@ let
   nocturnal = fetchurl {
     url = "https://gamebanana.com/dl/1705996";
     hash = "sha256-MJ4Cde8EYKmqPd47x7nz2COGVQgWNLGSVG4mKadBeHs=";
+  };
+  looping = fetchurl {
+    url = "https://gamebanana.com/dl/1757499";
+    hash = "sha256-mK2SUGbl4K1rZjOMLECjWribSTYC2QyuoIuM5JEX3sM=";
+  };
+  stage-changer = fetchurl {
+    url = "https://gamebanana.com/dl/1754369";
+    hash = "sha256-f2kzEuOCYmYX688VGLV9qCZjNzPB80kMjHm0B0WQjiM=";
   };
 
 in
@@ -113,6 +121,7 @@ stdenv.mkDerivation {
     unzip -d $out $src
     mkdir -p $out/mods/nene
     unrar x -xshits/ -y ${nene} $out/mods/nene
+    unzip -d $out/mods/ ${extra-events}
     unzip -d $out/mods/ ${spooky}
     unzip -d $out/mods/qt-rewired ${qt-rewired}
     unzip -d $out/mods/hazy ${hazy}
@@ -121,12 +130,12 @@ stdenv.mkDerivation {
     unzip -d $out/mods/ ${philly}
     unzip -d $out/mods/ ${sarvente} -x "__MACOSX/*"
     unzip -d $out/mods/ ${gf}
-    unzip ${fnf-extreme}
-    mv "FNF Extreme Mode [V6]/Extreme Mode/" $out/mods/
     unzip -d $out/mods/ ${random_1}
     unzip -d $out/mods/ ${random_2}
     unzip -d $out/mods/ ${sky-redux}
     unzip -d $out/mods/ ${nocturnal}
+    unzip -d $out/mods/ ${looping}
+    unzip -d $out/mods/ ${stage-changer}
     unrar x ${shootin} $out/mods
   '';
 
