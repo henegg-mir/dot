@@ -97,6 +97,10 @@ in
           wmctrl
           osu-lazer-bin
           (callPackage ./games/funkin.nix { })
+          protonup-qt
+          mgba
+          ani-cli
+
         ]
         ++ (lib.optionals desktop) [
           cemu

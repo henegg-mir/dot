@@ -8,11 +8,6 @@
       url = "git+https://git.lix.systems/lix-project/lix";
       flake = false;
     };
-    lix-module = {
-      url = "git+https://git.lix.systems/lix-project/nixos-module";
-      inputs.lix.follows = "lix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -45,7 +40,6 @@
       nixpkgs,
       nixpkgs-2511,
       nixos-hardware,
-      #lix-module,
       home-manager,
       ...
     }@inputs:
@@ -81,14 +75,12 @@
             nixos-hardware.nixosModules.common-gpu-intel
             nixos-hardware.nixosModules.common-pc-laptop
             nixos-hardware.nixosModules.common-pc-laptop-ssd
-            #lix-module.nixosModules.default
           ];
         };
         zamacona = nixpkgs.lib.nixosSystem {
           inherit pkgs;
           modules = [
             ./zamacona/configuration.nix
-            #lix-module.nixosModules.default
           ];
         };
         yorith = nixpkgs.lib.nixosSystem {
@@ -101,7 +93,6 @@
             nixos-hardware.nixosModules.common-pc
             nixos-hardware.nixosModules.common-pc-ssd
             ./yorith/configuration.nix
-            #lix-module.nixosModules.default
           ];
         };
       };
@@ -117,7 +108,6 @@
           };
           modules = [
             ./home.nix
-            #lix-module.nixosModules.default
           ];
         };
         zamacona = home-manager.lib.homeManagerConfiguration {
@@ -130,7 +120,6 @@
           };
           modules = [
             ./home.nix
-            #lix-module.nixosModules.default
           ];
         };
         yorith = home-manager.lib.homeManagerConfiguration {
@@ -143,7 +132,6 @@
           };
           modules = [
             ./home.nix
-            #lix-module.nixosModules.default
           ];
         };
       };

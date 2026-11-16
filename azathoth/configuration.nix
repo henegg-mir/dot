@@ -38,7 +38,10 @@ in
 
   nix = {
     settings = {
-      experimental-features = "nix-command flakes";
+      experimental-features = [
+        "nix-command"
+        "flakes"
+      ];
       keep-outputs = true;
       keep-derivations = true;
       auto-optimise-store = true;
@@ -84,13 +87,13 @@ in
   services.xserver.enable = true;
 
   # Enable the KDE Plasma Desktop Environment.
-  # displayManager.sddm = {
-  #   enable = true;
-  #   theme = "catppuccin-mocha-mauve";
-  #   package = pkgs.kdePackages.sddm;
-  # };
+  services.displayManager.sddm = {
+    enable = true;
+    wayland.enable = true;
+    theme = "catppuccin-mocha-mauve";
+    package = pkgs.kdePackages.sddm;
+  };
   programs.sway.enable = true;
-  services.displayManager.gdm.enable = true;
   services.desktopManager.gnome.enable = true;
 
   # Configure keymap in X11
@@ -142,23 +145,27 @@ in
       #  thunderbird
     ];
   };
+
+  services.fprintd.enable = true;
+  services.fprintd.tod.enable = true;
+  services.fprintd.tod.driver = pkgs.libfprint-2-tod1-goodix;
+
   environment.localBinInPath = true;
-  environment.systemPackages = with pkgs; [ wakeonlan ];
+  environment.systemPackages = with pkgs; [
+    wakeonlan
+    (catppuccin-sddm.override {
+      flavor = "mocha";
+      accent = "mauve";
+      font = "Noto Sans";
+      fontSize = "9";
+      clockEnabled = false;
+      background = "${../add_black_pink.png}";
+      loginBackground = false;
+    })
+  ];
   # Install firefox.
   # List packages installed in system profile. To search, run:
   # $ nix search wget
-  # environment.systemPackages = [(
-  #   pkgs.catppuccin-sddm.override {
-  #     flavor = "mocha";
-  #     accent = "mauve";
-  #     font  = "Noto Sans";
-  #     fontSize = "9";
-  #     background = "${../dream.jpg}";
-  #     loginBackground = true;
-  #   }
-  # )];
-  #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-  #  wget
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
@@ -294,8 +301,8 @@ in
           path = "/home/egg/.local/share/FunkinCrew";
           devices = [ "zamacona" ];
         };
-        "Fnf-mods" = {
-          path = "/home/egg/Games/fnf/mods";
+        "Courses" = {
+          path = "/home/egg/Courses";
           devices = [ "zamacona" ];
         };
       };
