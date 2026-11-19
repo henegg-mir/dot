@@ -89,12 +89,16 @@ in
   # Enable the KDE Plasma Desktop Environment.
   services.displayManager.sddm = {
     enable = true;
+    wayland.compositor = "kwin";
     wayland.enable = true;
     theme = "catppuccin-mocha-mauve";
     package = pkgs.kdePackages.sddm;
+    settings.Autologin = {
+      Session = "sway.desktop";
+      User = "egg";
+    };
   };
   programs.sway.enable = true;
-  services.desktopManager.gnome.enable = true;
 
   # Configure keymap in X11
   services.xserver.xkb = {

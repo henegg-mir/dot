@@ -100,6 +100,7 @@ in
           protonup-qt
           mgba
           ani-cli
+          win2xcur
 
         ]
         ++ (lib.optionals desktop) [
@@ -127,6 +128,20 @@ in
     sessionPath = [
       "${scripts}"
     ];
+    pointerCursor =
+      let
+        getFrom = name: {
+          sway.enable = true;
+          enable = true;
+          name = name;
+          sway.size = 24;
+          package = pkgs.runCommand "${name}" { } ''
+            mkdir -p $out/share/icons/
+            ln -s ${./DisCursor} $out/share/icons/${name}
+          '';
+        };
+      in
+      getFrom "DisCursor";
 
   };
 
