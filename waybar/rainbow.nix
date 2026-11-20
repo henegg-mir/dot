@@ -1,12 +1,12 @@
 {
   writeShellScript,
-  dir ? "",
+  dir ? "default",
 }:
 writeShellScript "rainbow" ''
   text_1="☆.。.:*・°☆.。.:*・°☆.。.:*・°☆"
   text_2="☆°・*:.。.☆°・*:.。.☆°・*:.。.☆"
   text="$text_1"
-  if [ ${dir} == "reverse" ]; then text="$text_1";
+  if [ ${dir} == "-r" ]; then text="$text_1";
   else text="$text_2";
   fi
 
@@ -24,7 +24,7 @@ writeShellScript "rainbow" ''
       printf "%s\n" "$output"
       
       # Rotate colors for animation
-      if [ "$1" == "-r" ]; then colors=( "''${colors[@]:1}" "''${colors[0]}" );
+      if [ ${dir} == "-r" ]; then colors=( "''${colors[@]:1}" "''${colors[0]}" );
       else colors=( "''${colors[-1]}" "''${colors[@]:0:''${#colors[@]}-1}" );
       fi
       sleep 0.3
